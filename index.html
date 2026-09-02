@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>기본도형 작도 연습 v2</title>
+<style>
+:root{
+  --bg:#f6f4ea;--card:#fffdf7;--ink:#222;--accent:#2f6f62;--soft:#dfeee9;
+  --blue:#1565c0;--green:#3a7b67;--red:#d34e32;--muted:#777;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Noto Sans KR","Malgun Gothic",sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:14px 16px;border-bottom:1px solid #ddd8cc;background:rgba(246,244,234,.97);position:sticky;top:0;z-index:3}
+h1{margin:0;font-size:clamp(22px,3vw,34px)} .sub{font-size:14px;color:#666;margin-top:4px}
+.wrap{max-width:1100px;margin:auto;padding:16px}
+.tabs,.tools,.bottom,.compassModes{display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;border-radius:12px;padding:11px 14px;font-size:15px;font-weight:750;background:#ece8df;color:#222;cursor:pointer;touch-action:manipulation}
+button.active{background:var(--accent);color:#fff}
+.panel{background:var(--card);border:1px solid #ddd6ca;border-radius:18px;padding:14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0}
+.mission{font-size:18px;font-weight:800}
+.status{padding:10px 12px;background:#f0eee8;border-radius:10px;margin-bottom:10px;min-height:42px}
+.status.ok{background:#e5f5e7;color:#246a38}.status.bad{background:#f8e7e2;color:#8a3a28}
+.canvasbox{width:100%;aspect-ratio:16/10;position:relative;background:#fff;border:2px solid #bbb4a6;border-radius:14px;overflow:hidden;touch-action:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.compassBar{display:none;margin:8px 0 10px;padding:10px;border-radius:12px;background:#eef4f1;border:1px solid #d3e2dc}
+.compassBar.show{display:block}
+.compassTitle{font-weight:800;margin-bottom:7px}
+.hint{margin-top:10px;padding:12px;background:#f7f1df;border-left:5px solid #d6ad49;border-radius:10px;line-height:1.6}
+.small{font-size:13px;color:#666;margin-top:8px;line-height:1.5}
+.badge{display:inline-block;border-radius:999px;padding:2px 7px;background:#e8eee9;color:#355f55;font-weight:700}
+@media(max-width:640px){.canvasbox{aspect-ratio:4/5}.mission{font-size:16px}button{font-size:14px;padding:10px 12px}}
+
+.shareTop{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.shareBtn{background:#315f95;color:#fff}
+.fullBtn{background:#4a4a4a;color:#fff}
+.modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}
+.modalOverlay.show{display:flex}
+.shareModal{width:min(520px,100%);background:#fff;border-radius:18px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}
+.shareModal h2{margin:0 0 8px;font-size:23px}
+.shareModal p{margin:6px 0 12px;color:#555;line-height:1.5}
+.shareInputRow{display:flex;gap:8px}
+.shareInputRow input{flex:1;min-width:0;border:1px solid #bbb;border-radius:10px;padding:11px;font-size:15px}
+.qrWrap{display:flex;justify-content:center;align-items:center;min-height:230px;margin:14px 0;background:#fafafa;border:1px dashed #ccc;border-radius:14px;padding:12px}
+#qrBox img,#qrBox canvas{max-width:210px!important;max-height:210px!important}
+.modalBtns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.copyOk{color:#246a38;font-weight:700;min-height:22px}
+@media(max-width:640px){.shareTop{width:100%}.shareTop button{flex:1}}
+
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+    <div>
+      <h1>자와 컴퍼스로 삼각형 작도</h1>
+      <div class="sub">기존 작도 도구를 그대로 사용하여 삼각형을 직접 작도할 수 있습니다.</div>
+    </div>
+    <div class="shareTop">
+      <button id="shareOpenBtn" class="shareBtn">학생에게 공유</button>
+      <button id="fullscreenBtn" class="fullBtn">전체화면</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="tabs">
+    <button id="t0" class="active">1. 세 변</button>
+    <button id="t1">2. 두 변과 끼인각</button>
+    <button id="t2">3. 한 변과 양 끝각</button>
+    <button id="t3">교과서 3</button>
+    <button id="t4">교과서 4</button>
+  </div>
+
+  <div class="panel">
+    <div class="row">
+      <div class="mission" id="mission"></div>
+      <div class="tools">
+        <button id="lineBtn" class="active">자(직선)</button>
+        <button id="rayBtn">반직선</button>
+        <button id="segmentBtn">선분</button>
+        <button id="compassBtn">컴퍼스</button>
+        <button id="pointBtn">점</button>
+        <button id="intersectionBtn">교점</button>
+      </div>
+    </div>
+
+    <div id="compassBar" class="compassBar">
+      <div class="compassTitle">컴퍼스 조작</div>
+      <div class="compassModes">
+        <button id="cmMove" class="active">① 이동</button>
+        <button id="cmOpen">② 간격 조절</button>
+        <button id="cmArc">③ 호 그리기</button>
+      </div>
+      <div class="small">
+        <span class="badge">이동</span> 바늘점 또는 몸통을 끌어 컴퍼스 전체를 옮깁니다. 바늘점이 기존 점 가까이에 오면 자동으로 정확히 붙습니다.
+        &nbsp; <span class="badge">간격 조절</span> 연필점을 끌어 반지름을 맞춥니다. 연필점도 기존 점 가까이에 오면 자동으로 정확히 붙습니다.
+        &nbsp; <span class="badge">호 그리기</span> 연필점을 누른 채 돌리면 움직인 만큼만 호가 그려집니다.
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:0">
+      <div style="font-weight:800">색상</div>
+      <div class="tools" id="colorTools">
+        <button class="colorBtn active" data-color="#1565c0" style="background:#1565c0;color:white">파랑</button>
+        <button class="colorBtn" data-color="#d34e32" style="background:#d34e32;color:white">빨강</button>
+        <button class="colorBtn" data-color="#2e7d32" style="background:#2e7d32;color:white">초록</button>
+        <button class="colorBtn" data-color="#111111" style="background:#111;color:white">검정</button>
+        <button class="colorBtn" data-color="#8e44ad" style="background:#8e44ad;color:white">보라</button>
+      </div>
+    </div>
+
+    <div id="status" class="status">도구를 선택하고 작도해 보세요.</div>
+
+    <div class="canvasbox" id="box"><canvas id="cv"></canvas></div>
+
+    <div class="bottom" style="margin-top:10px">
+      <button id="hintBtn">힌트</button>
+      <button id="undoBtn">되돌리기</button>
+      <button id="resetBtn">처음부터</button>
+      <button id="checkBtn">정답 확인</button>
+      <button id="zoomOutBtn">축소 −</button>
+      <button id="zoomResetBtn">100%</button>
+      <button id="zoomInBtn">확대 +</button>
+    </div>
+
+    <div id="hint" class="hint" hidden></div>
+  </div>
+</div>
+
+
+<div id="shareOverlay" class="modalOverlay" aria-hidden="true">
+  <div class="shareModal">
+    <h2>학생에게 공유</h2>
+    <p id="shareInfo">웹에 올린 주소를 QR코드와 링크로 학생들에게 공유할 수 있습니다.</p>
+    <div class="shareInputRow">
+      <input id="shareUrlInput" type="url" placeholder="공유할 웹주소를 입력하세요">
+      <button id="makeQrBtn">QR 만들기</button>
+    </div>
+    <div class="qrWrap"><div id="qrBox">QR코드가 여기에 표시됩니다.</div></div>
+    <div id="copyMsg" class="copyOk"></div>
+    <div class="modalBtns">
+      <button id="nativeShareBtn">공유창 열기</button>
+      <button id="copyLinkBtn">링크 복사</button>
+      <button id="shareCloseBtn">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const cv=document.getElementById('cv'), box=document.getElementById('box'), ctx=cv.getContext('2d');
+const mission=document.getElementById('mission'), statusEl=document.getElementById('status'), hintEl=document.getElementById('hint');
+const compassBar=document.getElementById('compassBar');
+
+let lesson=0, tool='line', compassMode='move', actions=[], pending=null, hintStep=0, W=900,H=560, selectedColor='#1565c0';
+let viewScale=1, viewX=0, viewY=0;
+let drag=null;
+let snapTarget=null;
+let intersectionSelections=[];
+
+// 컴퍼스 상태: 바늘점(center), 연필점(pencil)
+let compass={center:{x:420,y:300}, pencil:{x:520,y:300}, visible:false};
+
+const L=[
+ {m:'', h:['주어진 세 선분의 길이를 컴퍼스로 옮겨 삼각형을 작도해 보세요.']},
+ {m:'', h:['주어진 두 선분의 길이와 끼인각을 이용해 삼각형을 작도해 보세요.']},
+ {m:'', h:['주어진 한 변과 그 양 끝각을 이용해 삼각형을 작도해 보세요.']},
+ {m:'', h:['오른쪽 그림처럼 길이가 a인 선분 하나만 이용해 정삼각형을 직접 작도해 보세요.']},
+ {m:'', h:['주어진 두 변의 길이 a, c와 끼인각 ∠B를 이용해 삼각형을 직접 작도해 보세요.']}
+];
+
+function pt(x,y){return{x,y}}
+function screenToWorld(p){
+  return pt((p.x-viewX)/viewScale,(p.y-viewY)/viewScale);
+}
+function applyView(){
+  ctx.save();
+  ctx.translate(viewX,viewY);
+  ctx.scale(viewScale,viewScale);
+}
+function restoreView(){ctx.restore();}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function angle(c,p){return Math.atan2(p.y-c.y,p.x-c.x)}
+function normAng(a){while(a<=-Math.PI)a+=Math.PI*2;while(a>Math.PI)a-=Math.PI*2;return a}
+
+function base(){
+  const leftX=W*.14, midX=W*.31;
+  if(lesson===0){
+    return{
+      s1a:pt(leftX,H*.24), s1b:pt(midX,H*.24),
+      s2a:pt(leftX,H*.42), s2b:pt(W*.28,H*.42),
+      s3a:pt(leftX,H*.60), s3b:pt(W*.25,H*.60)
+    };
+  }
+  if(lesson===1){
+    const V=pt(W*.20,H*.60), r=W*.14, ang=-Math.PI/3.2;
+    return{
+      s1a:pt(leftX,H*.24), s1b:pt(midX,H*.24),
+      s2a:pt(leftX,H*.39), s2b:pt(W*.27,H*.39),
+      V, A:pt(V.x+r,V.y), B:pt(V.x+r*Math.cos(ang),V.y+r*Math.sin(ang))
+    };
+  }
+  if(lesson===2){
+    const VL=pt(W*.18,H*.58), VR=pt(W*.34,H*.58);
+    const r=W*.105;
+    return{
+      baseA:VL, baseB:VR,
+      L1:pt(VL.x+r,VL.y),
+      L2:pt(VL.x+r*Math.cos(-Math.PI/3),VL.y+r*Math.sin(-Math.PI/3)),
+      R1:pt(VR.x-r,VR.y),
+      R2:pt(VR.x+r*Math.cos(-Math.PI+Math.PI/4),VR.y+r*Math.sin(-Math.PI+Math.PI/4))
+    };
+  }
+  if(lesson===3){
+    return{
+      a1:pt(W*.15,H*.30), a2:pt(W*.31,H*.30)
+    };
+  }
+  if(lesson===4){
+    const B=pt(W*.20,H*.64);
+    const ang=-Math.PI/4.2, rr=W*.13;
+    return{
+      a1:pt(W*.14,H*.23), a2:pt(W*.30,H*.23),
+      c1:pt(W*.14,H*.38), c2:pt(W*.26,H*.38),
+      B,
+      BA:pt(B.x+rr*Math.cos(ang),B.y+rr*Math.sin(ang)),
+      BC:pt(B.x+rr,B.y)
+    };
+  }
+  return{};
+}
+
+function snapCandidates(){
+  const g=base();
+  const pts=[];
+  // 문제에 이미 주어진 점
+  Object.values(g).forEach(v=>{
+    if(v && typeof v.x==='number' && typeof v.y==='number') pts.push(v);
+  });
+  // 학생이 직접 찍은 점
+  actions.filter(a=>a.t==='p').forEach(a=>pts.push(a.p));
+  return pts;
+}
+function nearestSnap(p, threshold=22){
+  let best=null, bestD=threshold;
+  for(const q of snapCandidates()){
+    const dd=dist(p,q);
+    if(dd<bestD){best=q;bestD=dd}
+  }
+  return best;
+}
+
+function projectToLine(p,a,b,mode='line'){
+  const vx=b.x-a.x, vy=b.y-a.y;
+  const len2=vx*vx+vy*vy;
+  if(len2<1e-9) return null;
+  let t=((p.x-a.x)*vx+(p.y-a.y)*vy)/len2;
+  if(mode==='segment') t=Math.max(0,Math.min(1,t));
+  else if(mode==='ray') t=Math.max(0,t);
+  return {x:a.x+t*vx,y:a.y+t*vy,t};
+}
+
+function lineLikeActions(){
+  return actions.filter(a=>a.t==='l'||a.t==='r'||a.t==='s');
+}
+
+function baseLineActions(){
+  const g=base();
+  if(lesson===0){
+    return[
+      {t:'s',a:g.s1a,b:g.s1b,baseKey:'S1'},
+      {t:'s',a:g.s2a,b:g.s2b,baseKey:'S2'},
+      {t:'s',a:g.s3a,b:g.s3b,baseKey:'S3'}
+    ];
+  }
+  if(lesson===1){
+    return[
+      {t:'s',a:g.s1a,b:g.s1b,baseKey:'S1'},
+      {t:'s',a:g.s2a,b:g.s2b,baseKey:'S2'},
+      {t:'s',a:g.V,b:g.A,baseKey:'ANG1'},
+      {t:'s',a:g.V,b:g.B,baseKey:'ANG2'}
+    ];
+  }
+  if(lesson===2){
+    return[
+      {t:'s',a:g.baseA,b:g.baseB,baseKey:'BASE'},
+      {t:'s',a:g.baseA,b:g.L1,baseKey:'L1'},
+      {t:'s',a:g.baseA,b:g.L2,baseKey:'L2'},
+      {t:'s',a:g.baseB,b:g.R1,baseKey:'R1'},
+      {t:'s',a:g.baseB,b:g.R2,baseKey:'R2'}
+    ];
+  }
+  if(lesson===3){
+    return[{t:'s',a:g.a1,b:g.a2,baseKey:'A'}];
+  }
+  if(lesson===4){
+    return[
+      {t:'s',a:g.a1,b:g.a2,baseKey:'A'},
+      {t:'s',a:g.c1,b:g.c2,baseKey:'C'},
+      {t:'s',a:g.B,b:g.BA,baseKey:'BA'},
+      {t:'s',a:g.B,b:g.BC,baseKey:'BC'}
+    ];
+  }
+  return[];
+}
+function selectableLineActions(){
+  return [...baseLineActions(), ...lineLikeActions()];
+}
+function selectableIntersectionObjects(){
+  return [...selectableLineActions(), ...actions.filter(a=>a.t==='arc')];
+}
+function sameSelectedLine(a,b){
+  if(!a||!b) return false;
+  if(a.baseKey || b.baseKey) return a.baseKey && b.baseKey && a.baseKey===b.baseKey;
+  return a===b;
+}
+
+function distanceToLineAction(p,a){
+  const vx=a.b.x-a.a.x, vy=a.b.y-a.a.y;
+  const len2=vx*vx+vy*vy;
+  if(len2<1e-9) return Infinity;
+  let t=((p.x-a.a.x)*vx+(p.y-a.a.y)*vy)/len2;
+  if(a.t==='s') t=Math.max(0,Math.min(1,t));
+  else if(a.t==='r') t=Math.max(0,t);
+  const q=pt(a.a.x+t*vx,a.a.y+t*vy);
+  return dist(p,q);
+}
+function nearestLineAction(p,threshold=22){
+  // 화면에서 느끼는 선택 범위가 확대/축소와 무관하도록 보정
+  const worldThreshold=threshold/Math.max(viewScale,0.01);
+  let best=null,bestD=worldThreshold;
+  for(const a of selectableLineActions()){
+    const dd=distanceToLineAction(p,a);
+    if(dd<bestD){best=a;bestD=dd}
+  }
+  return best;
+}
+
+function distanceToArcAction(p,a){
+  if(a.points && a.points.length>1){
+    let best=Infinity;
+    for(let i=0;i<a.points.length-1;i++){
+      const q=projectToLine(p,a.points[i],a.points[i+1],'segment');
+      if(q) best=Math.min(best,dist(p,q));
+    }
+    return best;
+  }
+  // 예전 형식의 호가 남아 있을 경우 원 둘레까지의 거리로 선택
+  if(a.c && typeof a.r==='number') return Math.abs(dist(p,a.c)-a.r);
+  return Infinity;
+}
+function nearestIntersectionObject(p,threshold=34){
+  const worldThreshold=threshold/Math.max(viewScale,0.01);
+  let best=null,bestD=worldThreshold;
+  for(const a of selectableIntersectionObjects()){
+    const dd=a.t==='arc'?distanceToArcAction(p,a):distanceToLineAction(p,a);
+    if(dd<bestD){best=a;bestD=dd}
+  }
+  return best;
+}
+
+function nearestLinePoint(p, threshold=18){
+  let best=null, bestD=threshold;
+  for(const a of lineLikeActions()){
+    const q=projectToLine(p,a.a,a.b,a.t==='s'?'segment':(a.t==='r'?'ray':'line'));
+    if(!q) continue;
+    const dd=dist(p,q);
+    if(dd<bestD){best=pt(q.x,q.y);bestD=dd}
+  }
+  return best;
+}
+
+function lineIntersection(a1,a2,b1,b2,modeA='line',modeB='line'){
+  const r={x:a2.x-a1.x,y:a2.y-a1.y};
+  const s={x:b2.x-b1.x,y:b2.y-b1.y};
+  const den=r.x*s.y-r.y*s.x;
+  if(Math.abs(den)<1e-9) return null;
+  const qp={x:b1.x-a1.x,y:b1.y-a1.y};
+  const t=(qp.x*s.y-qp.y*s.x)/den;
+  const u=(qp.x*r.y-qp.y*r.x)/den;
+  if(modeA==='segment' && (t<0||t>1)) return null;
+  if(modeA==='ray' && t<0) return null;
+  if(modeB==='segment' && (u<0||u>1)) return null;
+  if(modeB==='ray' && u<0) return null;
+  return pt(a1.x+t*r.x,a1.y+t*r.y);
+}
+
+
+function objectMode(a){
+  return a.t==='s'?'segment':(a.t==='r'?'ray':'line');
+}
+function arcSegments(a){
+  const out=[];
+  if(a.points && a.points.length>1){
+    for(let i=0;i<a.points.length-1;i++) out.push([a.points[i],a.points[i+1]]);
+  }
+  return out;
+}
+function dedupePoints(pts,eps=4){
+  const out=[];
+  for(const p of pts){
+    if(!out.some(q=>dist(p,q)<eps)) out.push(p);
+  }
+  return out;
+}
+function intersectionsBetweenObjects(a,b){
+  // 직선류 - 직선류
+  if(a.t!=='arc' && b.t!=='arc'){
+    const q=lineIntersection(a.a,a.b,b.a,b.b,objectMode(a),objectMode(b));
+    return q?[q]:[];
+  }
+
+  // 직선류 - 호
+  if(a.t!=='arc' && b.t==='arc'){
+    const pts=[];
+    for(const segm of arcSegments(b)){
+      const q=lineIntersection(a.a,a.b,segm[0],segm[1],objectMode(a),'segment');
+      if(q) pts.push(q);
+    }
+    return dedupePoints(pts);
+  }
+  if(a.t==='arc' && b.t!=='arc'){
+    return intersectionsBetweenObjects(b,a);
+  }
+
+  // 호 - 호
+  const pts=[];
+  const aa=arcSegments(a), bb=arcSegments(b);
+  for(const sa of aa){
+    for(const sb of bb){
+      const q=lineIntersection(sa[0],sa[1],sb[0],sb[1],'segment','segment');
+      if(q) pts.push(q);
+    }
+  }
+  return dedupePoints(pts);
+}
+
+function allIntersections(){
+  const ls=lineLikeActions();
+  const out=[];
+  for(let i=0;i<ls.length;i++){
+    for(let j=i+1;j<ls.length;j++){
+      const q=lineIntersection(
+        ls[i].a,ls[i].b,ls[j].a,ls[j].b,
+        ls[i].t==='s'?'segment':(ls[i].t==='r'?'ray':'line'),
+        ls[j].t==='s'?'segment':(ls[j].t==='r'?'ray':'line')
+      );
+      if(q && q.x>=0 && q.x<=W && q.y>=0 && q.y<=H) out.push(q);
+    }
+  }
+  return out;
+}
+
+function nearestIntersection(p, threshold=32){
+  let best=null,bestD=threshold;
+  for(const q of allIntersections()){
+    const dd=dist(p,q);
+    if(dd<bestD){best=q;bestD=dd}
+  }
+  return best;
+}
+
+function smartPointSnap(p){
+  // 우선순위: 기존 점 > 두 선의 교점 > 선 위의 최근접점
+  const fixed=nearestSnap(p,24);
+  if(fixed) return {p:pt(fixed.x,fixed.y),kind:'point'};
+  const inter=nearestIntersection(p,32);
+  if(inter) return {p:pt(inter.x,inter.y),kind:'intersection'};
+  const onLine=nearestLinePoint(p,18);
+  if(onLine) return {p:pt(onLine.x,onLine.y),kind:'line'};
+  return {p,kind:'free'};
+}
+
+function seg(a,b,c='#222',w=2){
+ ctx.strokeStyle=c;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()
+}
+function inf(a,b,c='#1565c0',w=2.5){
+ let dx=b.x-a.x,dy=b.y-a.y,l=Math.hypot(dx,dy)||1;dx/=l;dy/=l;
+ seg(pt(a.x-dx*2000,a.y-dy*2000),pt(a.x+dx*2000,a.y+dy*2000),c,w)
+}
+function ray(a,b,c='#1565c0',w=2.5){
+ let dx=b.x-a.x,dy=b.y-a.y,l=Math.hypot(dx,dy)||1;dx/=l;dy/=l;
+ seg(a,pt(a.x+dx*2000,a.y+dy*2000),c,w)
+}
+
+function arrowHead(p,dir,col='#222',size=10){
+  const a=Math.atan2(dir.y,dir.x);
+  ctx.fillStyle=col;
+  ctx.beginPath();
+  ctx.moveTo(p.x,p.y);
+  ctx.lineTo(p.x-size*Math.cos(a-.45),p.y-size*Math.sin(a-.45));
+  ctx.lineTo(p.x-size*Math.cos(a+.45),p.y-size*Math.sin(a+.45));
+  ctx.closePath();ctx.fill();
+}
+function doubleArrowLine(a,b,col='#222',w=2){
+  seg(a,b,col,w);
+  arrowHead(a,{x:a.x-b.x,y:a.y-b.y},col,11);
+  arrowHead(b,{x:b.x-a.x,y:b.y-a.y},col,11);
+}
+function tick(p,len=12,col='#555'){
+  seg(pt(p.x,p.y-len/2),pt(p.x,p.y+len/2),col,1.4);
+}
+function smallAngleArc(v,p1,p2,r=24,col='#666',fill=null){
+  const a1=Math.atan2(p1.y-v.y,p1.x-v.x), a2=Math.atan2(p2.y-v.y,p2.x-v.x);
+  let d=a2-a1; while(d<=-Math.PI)d+=2*Math.PI; while(d>Math.PI)d-=2*Math.PI;
+  let end=a1+d;
+  if(fill){
+    ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(v.x,v.y);ctx.arc(v.x,v.y,r,a1,end,d<0);ctx.closePath();ctx.fill();
+  }
+  ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(v.x,v.y,r,a1,end,d<0);ctx.stroke();
+}
+function dot(p,n,col='#111'){
+ ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);ctx.fill();
+ if(n){ctx.font='16px sans-serif';ctx.fillStyle='#111';ctx.fillText(n,p.x+8,p.y-8)}
+}
+function arcDraw(c,r,a1,a2,col='#3a7b67',w=2.4){
+ ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();ctx.arc(c.x,c.y,r,a1,a2,a2<a1);ctx.stroke()
+}
+function arcPath(points,col='#3a7b67',w=2.4){
+ if(!points || points.length<2) return;
+ ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();
+ ctx.moveTo(points[0].x, points[0].y);
+ for(let i=1;i<points.length;i++) ctx.lineTo(points[i].x, points[i].y);
+ ctx.stroke();
+}
+function lineDist(p,a,b){
+ let A=p.x-a.x,B=p.y-a.y,C=b.x-a.x,D=b.y-a.y,z=C*C+D*D,t=z?(A*C+B*D)/z:0;
+ t=Math.max(0,Math.min(1,t)); return Math.hypot(p.x-(a.x+t*C),p.y-(a.y+t*D))
+}
+
+function drawCompass(){
+ if(!compass.visible)return;
+ const c=compass.center,p=compass.pencil;
+ const mx=(c.x+p.x)/2,my=(c.y+p.y)/2;
+ // 다리
+ ctx.lineCap='round';
+ seg(c,pt(mx,my-45),'#555',7);
+ seg(p,pt(mx,my-45),'#555',7);
+ // 상단 연결부
+ ctx.fillStyle='#666';ctx.beginPath();ctx.arc(mx,my-48,12,0,Math.PI*2);ctx.fill();
+ // 바늘/연필 끝
+ ctx.fillStyle='#111';ctx.beginPath();ctx.arc(c.x,c.y,6,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#b34a34';ctx.beginPath();ctx.arc(p.x,p.y,7,0,Math.PI*2);ctx.fill();
+ // 손잡이 히트영역 표시
+ ctx.strokeStyle='rgba(47,111,98,.4)';ctx.lineWidth=2;
+ ctx.beginPath();ctx.arc(c.x,c.y,14,0,Math.PI*2);ctx.stroke();
+ ctx.beginPath();ctx.arc(p.x,p.y,15,0,Math.PI*2);ctx.stroke();
+ ctx.font='13px sans-serif';ctx.fillStyle='#555';
+ ctx.fillText('바늘',c.x-13,c.y+27);ctx.fillText('연필',p.x-13,p.y+28);
+
+ if(snapTarget){
+   ctx.save();
+   ctx.strokeStyle='#ff9800';
+   ctx.lineWidth=3;
+   ctx.beginPath();
+   ctx.arc(snapTarget.x,snapTarget.y,13,0,Math.PI*2);
+   ctx.stroke();
+   ctx.restore();
+ }
+}
+
+function draw(){
+ ctx.clearRect(0,0,W,H);ctx.fillStyle='#f8f8f8';ctx.fillRect(0,0,W,H);
+ applyView();
+ let g=base();
+
+ // 왼쪽: 주어진 조건 / 오른쪽: 자유 작도 공간
+ ctx.strokeStyle='#d5dde2';ctx.lineWidth=2;
+ ctx.setLineDash([8,8]);ctx.strokeRect(W*.48,H*.12,W*.44,H*.74);ctx.setLineDash([]);
+ ctx.fillStyle='#aab4ba';ctx.font='15px sans-serif';
+ ctx.fillText('작도 공간',W*.50,H*.16);
+
+ if(lesson===0){
+   seg(g.s1a,g.s1b,'#222',3); seg(g.s2a,g.s2b,'#222',3); seg(g.s3a,g.s3b,'#222',3);
+   ctx.fillStyle='#555';ctx.font='16px sans-serif';
+   ctx.fillText('a',g.s1a.x-22,g.s1a.y+5);
+   ctx.fillText('b',g.s2a.x-22,g.s2a.y+5);
+   ctx.fillText('c',g.s3a.x-22,g.s3a.y+5);
+ }
+ if(lesson===1){
+   seg(g.s1a,g.s1b,'#222',3); seg(g.s2a,g.s2b,'#222',3);
+   seg(g.V,g.A,'#222',2.5); seg(g.V,g.B,'#222',2.5);
+   smallAngleArc(g.V,g.A,g.B,22,'#666');
+   ctx.fillStyle='#555';ctx.font='16px sans-serif';
+   ctx.fillText('a',g.s1a.x-22,g.s1a.y+5);
+   ctx.fillText('b',g.s2a.x-22,g.s2a.y+5);
+   ctx.font='italic 21px serif';ctx.fillText('C',g.V.x+24,g.V.y-8);
+ }
+ if(lesson===2){
+   seg(g.baseA,g.baseB,'#222',3);
+   seg(g.baseA,g.L1,'#222',2.4); seg(g.baseA,g.L2,'#222',2.4);
+   seg(g.baseB,g.R1,'#222',2.4); seg(g.baseB,g.R2,'#222',2.4);
+   smallAngleArc(g.baseA,g.L1,g.L2,20,'#666');
+   smallAngleArc(g.baseB,g.R1,g.R2,20,'#666');
+   ctx.fillStyle='#555';ctx.font='16px sans-serif';
+   ctx.fillText('c', (g.baseA.x+g.baseB.x)/2-4, g.baseA.y+26);
+   ctx.font='italic 20px serif';
+   ctx.fillText('A',g.baseA.x+18,g.baseA.y-8);
+   ctx.fillText('B',g.baseB.x-32,g.baseB.y-8);
+ }
+
+ if(lesson===3){
+   // 교과서 3: 길이가 a인 선분 하나만 제시
+   seg(g.a1,g.a2,'#222',3);
+   // 교과서 그림처럼 길이 표시용 점선 호
+   const mid=pt((g.a1.x+g.a2.x)/2,(g.a1.y+g.a2.y)/2);
+   ctx.strokeStyle='#777';ctx.lineWidth=1.2;ctx.setLineDash([4,4]);
+   ctx.beginPath();ctx.arc(mid.x,mid.y,dist(g.a1,g.a2)/2,-Math.PI*.92,-Math.PI*.08);ctx.stroke();
+   ctx.setLineDash([]);
+   ctx.fillStyle='#555';ctx.font='italic 20px serif';
+   ctx.fillText('a',mid.x-5,mid.y+26);
+ }
+ if(lesson===4){
+   // 교과서 4: 두 변의 길이 a, c와 끼인각 B
+   seg(g.a1,g.a2,'#222',3); seg(g.c1,g.c2,'#222',3);
+   const ma=pt((g.a1.x+g.a2.x)/2,(g.a1.y+g.a2.y)/2);
+   const mc=pt((g.c1.x+g.c2.x)/2,(g.c1.y+g.c2.y)/2);
+   ctx.strokeStyle='#777';ctx.lineWidth=1.1;ctx.setLineDash([4,4]);
+   ctx.beginPath();ctx.arc(ma.x,ma.y,dist(g.a1,g.a2)/2,-Math.PI*.92,-Math.PI*.08);ctx.stroke();
+   ctx.beginPath();ctx.arc(mc.x,mc.y,dist(g.c1,g.c2)/2,-Math.PI*.92,-Math.PI*.08);ctx.stroke();
+   ctx.setLineDash([]);
+   ctx.fillStyle='#555';ctx.font='italic 19px serif';
+   ctx.fillText('a',ma.x-4,ma.y-8);
+   ctx.fillText('c',mc.x-4,mc.y-8);
+
+   seg(g.B,g.BA,'#222',2.5); seg(g.B,g.BC,'#222',2.5);
+   smallAngleArc(g.B,g.BC,g.BA,22,'#666');
+   ctx.fillStyle='#222';ctx.font='18px serif';
+   ctx.fillText('B',g.B.x-20,g.B.y+8);
+ }
+ // 교점 도구에서 선택한 '주어진 선'도 주황색으로 강조
+ for(const s of intersectionSelections){
+   if(!s.baseKey) continue;
+   if(s.t==='l') inf(s.a,s.b,'#ff9800',4.5);
+   else if(s.t==='r') ray(s.a,s.b,'#ff9800',4.5);
+   else seg(s.a,s.b,'#ff9800',4.5);
+ }
+
+ for(const a of actions){
+   const selected = intersectionSelections.some(s=>sameSelectedLine(s,a));
+   const col = selected ? '#ff9800' : (a.col||'#1565c0');
+   const width = selected ? 4.5 : 2.8;
+   if(a.t==='l')inf(a.a,a.b,col,width);
+   if(a.t==='r')ray(a.a,a.b,col,width);
+   if(a.t==='s')seg(a.a,a.b,col,width);
+   if(a.t==='p')dot(a.p,'',a.col||'#1565c0');
+   if(a.t==='arc'){
+     const arcCol = selected ? '#ff9800' : (a.col||'#3a7b67');
+     const arcW = selected ? 4.5 : 2.8;
+     if(a.points && a.points.length>1) arcPath(a.points, arcCol, arcW);
+     else arcDraw(a.c,a.r,a.a1,a.a2,arcCol,arcW);
+   }
+ }
+
+ // 호를 그리고 있는 중이면 실제 그린 궤적 그대로 실시간 표시
+ if(drag && drag.type==='arc'){
+   if(drag.arcPoints && drag.arcPoints.length>1){
+     arcPath(drag.arcPoints, selectedColor, 2.8);
+   }
+ }
+
+ if(pending && (tool==='line' || tool==='ray' || tool==='segment')){
+   ctx.save();ctx.strokeStyle='#888';ctx.setLineDash([6,5]);ctx.beginPath();ctx.arc(pending.x,pending.y,8,0,Math.PI*2);ctx.stroke();ctx.restore();
+ }
+ if(tool==='compass')drawCompass();
+
+ // 점 도구 스냅 시에도 잠깐 스냅 위치를 강조한다.
+ if(tool!=='compass' && snapTarget){
+   ctx.save();
+   ctx.strokeStyle='#ff9800';
+   ctx.lineWidth=3/viewScale;
+   ctx.beginPath();
+   ctx.arc(snapTarget.x,snapTarget.y,13/viewScale,0,Math.PI*2);
+   ctx.stroke();
+   ctx.restore();
+ }
+ restoreView();
+}
+
+function resize(){
+ let r=box.getBoundingClientRect(),q=Math.min(devicePixelRatio||1,2);
+ cv.width=r.width*q;cv.height=r.height*q;ctx.setTransform(q,0,0,q,0,0);W=r.width;H=r.height;
+ if(!compass.visible){
+   compass.center=pt(W*.48,H*.58);compass.pencil=pt(W*.62,H*.58)
+ }
+ draw()
+}
+window.addEventListener('resize',resize);
+
+function pos(e){
+  let r=cv.getBoundingClientRect();
+  return screenToWorld(pt(e.clientX-r.left,e.clientY-r.top));
+}
+function hit(p,q,rad=22){return dist(p,q)<=rad}
+function setStatus(s,k=''){statusEl.className='status'+(k?' '+k:'');statusEl.textContent=s}
+
+function setLesson(n){
+ lesson=n;actions=[];pending=null;hintStep=0;hintEl.hidden=true;snapTarget=null;intersectionSelections=[];viewScale=1;viewX=0;viewY=0;if(typeof zoomResetBtn!=='undefined')zoomResetBtn.textContent='100%';
+ mission.textContent=L[n].m;[t0,t1,t2,t3,t4].forEach((b,i)=>b.classList.toggle('active',i===n));
+ compass.visible=false;drag=null;setStatus('도구를 선택하고 작도해 보세요.');draw()
+}
+
+function setTool(t){
+ tool=t;pending=null;snapTarget=null;
+ lineBtn.classList.toggle('active',t==='line');
+ rayBtn.classList.toggle('active',t==='ray');
+ segmentBtn.classList.toggle('active',t==='segment');
+ compassBtn.classList.toggle('active',t==='compass');
+ pointBtn.classList.toggle('active',t==='point');
+ intersectionBtn.classList.toggle('active',t==='intersection');
+ compassBar.classList.toggle('show',t==='compass');
+ if(t!=='intersection') intersectionSelections=[];
+ if(t==='compass'){
+   if(!compass.visible){compass.visible=true;compass.center=pt(W*.48,H*.58);compass.pencil=pt(W*.62,H*.58)}
+   setStatus('컴퍼스: 먼저 이동/간격 조절/호 그리기 중 하나를 선택하세요.')
+ }else if(t==='line') setStatus('자(직선): 두 점을 차례로 누르세요. 기존 점·교점·선 근처는 자동으로 맞춰집니다.');
+ else if(t==='ray') setStatus('반직선: 첫 점이 시작점, 두 번째 점이 방향점입니다. 기존 점·교점·선 근처는 자동으로 맞춰집니다.');
+ else if(t==='segment') setStatus('선분: 두 점을 차례로 누르세요. 기존 점·교점·선 근처는 자동으로 맞춰집니다.');
+ else if(t==='intersection') setStatus('교점: 교점을 만들 두 도형을 하나씩 누르세요. 직선·반직선·선분뿐 아니라 컴퍼스로 그린 호도 선택할 수 있습니다.');
+ else setStatus('점 도구: 기존 점 근처는 그 점에, 두 선의 교점 근처는 교점에, 선 근처는 선 위에 자동으로 맞춰집니다.');
+ draw()
+}
+function setCompassMode(m){
+ compassMode=m;
+ cmMove.classList.toggle('active',m==='move');cmOpen.classList.toggle('active',m==='open');cmArc.classList.toggle('active',m==='arc');
+ if(m==='move')setStatus('컴퍼스 이동: 바늘점이 점 가까이에 오면 자동으로 그 점에 맞춰집니다.');
+ if(m==='open')setStatus('간격 조절: 빨간 연필점을 끌어 원하는 반지름으로 벌리세요. 기존 점 가까이 가면 연필점도 그 점에 자동으로 맞춰집니다.');
+ if(m==='arc')setStatus('호 그리기: 빨간 연필점을 누른 채 원하는 만큼 회전시키세요.');
+ draw()
+}
+
+cv.addEventListener('pointerdown',e=>{
+ e.preventDefault();cv.setPointerCapture?.(e.pointerId);let p=pos(e);
+ if(tool==='intersection'){
+   const hit=nearestIntersectionObject(p,38);
+   if(!hit){
+     setStatus('선이나 호 가까이를 눌러 선택하세요.','bad');
+     return;
+   }
+   if(intersectionSelections.some(s=>sameSelectedLine(s,hit))){
+     setStatus('이미 선택한 도형입니다. 다른 선이나 호를 선택하세요.','bad');
+     return;
+   }
+
+   intersectionSelections.push(hit);
+
+   if(intersectionSelections.length===1){
+     setStatus('첫 번째 도형을 선택했습니다. 두 번째 선이나 호를 눌러 주세요.');
+     draw();
+     return;
+   }
+
+   const a=intersectionSelections[0], b=intersectionSelections[1];
+   const qs=intersectionsBetweenObjects(a,b);
+
+   if(!qs.length){
+     setStatus('선택한 두 도형이 실제로 만나지 않습니다. 다시 선택하세요.','bad');
+     intersectionSelections=[];
+     draw();
+     return;
+   }
+
+   // 교점이 2개 이상이면 사용자가 두 번째로 누른 위치에 가장 가까운 교점을 선택
+   let q=qs[0], best=dist(p,q);
+   for(const cand of qs.slice(1)){
+     const dd=dist(p,cand);
+     if(dd<best){q=cand;best=dd}
+   }
+
+   const already=actions.filter(x=>x.t==='p').some(x=>dist(x.p,q)<3);
+   if(!already) actions.push({t:'p',p:pt(q.x,q.y),col:selectedColor});
+
+   snapTarget=pt(q.x,q.y);
+   intersectionSelections=[];
+   setStatus('선택한 두 도형의 교점에 점을 찍었습니다.','ok');
+   draw();
+   setTimeout(()=>{snapTarget=null;draw()},500);
+   return;
+ }
+  if(tool==='point'){
+   const snap=smartPointSnap(p);
+   const target=snap.p;
+
+   // 같은 위치에 점을 여러 번 겹쳐 찍는 것은 막는다.
+   const already=actions.filter(a=>a.t==='p').some(a=>dist(a.p,target)<3);
+   if(!already){
+     actions.push({t:'p',p:target,col:selectedColor});
+   }
+
+   if(snap.kind!=='free'){
+     snapTarget=target;
+     if(snap.kind==='point') setStatus('기존 점에 맞춰 정확히 점을 찍었습니다.');
+     else if(snap.kind==='intersection') setStatus('두 선의 교점에 맞춰 정확히 점을 찍었습니다.');
+     else if(snap.kind==='line') setStatus('선 위에 정확히 점을 찍었습니다.');
+     setTimeout(()=>{snapTarget=null;draw()},350);
+   }
+   draw();
+   return
+ }
+ if(tool==='line' || tool==='ray' || tool==='segment'){
+   // 직선/선분의 시작점과 끝점도 기존 점·교점·선 위로 스냅한다.
+   const snap=smartPointSnap(p);
+   const target=snap.p;
+
+   if(!pending){
+     pending=target;
+     if(snap.kind!=='free'){
+       snapTarget=target;
+       const txt=snap.kind==='point'?'기존 점':snap.kind==='intersection'?'교점':'선 위';
+       const toolName=tool==='line'?'직선':(tool==='ray'?'반직선':'선분');
+       setStatus(toolName+' 시작점을 '+txt+'에 맞췄습니다.');
+       setTimeout(()=>{snapTarget=null;draw()},300);
+     }
+     draw();
+     return
+   }
+
+   if(dist(target,pending)>10){
+     actions.push({t:tool==='line'?'l':(tool==='ray'?'r':'s'),a:pending,b:target,col:selectedColor});
+   }
+   if(snap.kind!=='free'){
+     snapTarget=target;
+     const txt=snap.kind==='point'?'기존 점':snap.kind==='intersection'?'교점':'선 위';
+     const toolName=tool==='line'?'직선':(tool==='ray'?'반직선':'선분');
+     setStatus(toolName+' 끝점을 '+txt+'에 맞췄습니다.');
+     setTimeout(()=>{snapTarget=null;draw()},300);
+   }
+   pending=null;
+   draw();
+   return
+ }
+ if(tool==='compass'){
+   if(compassMode==='move'){
+      // 바늘점/연필점/몸통 주변 모두 이동으로 인식
+      const mx=(compass.center.x+compass.pencil.x)/2,my=(compass.center.y+compass.pencil.y)/2;
+      if(hit(p,compass.center,28)||hit(p,compass.pencil,28)||dist(p,pt(mx,my-25))<55){
+        drag={type:'move',start:p,c0:{...compass.center},p0:{...compass.pencil}}
+      }
+   }else if(compassMode==='open'){
+      if(hit(p,compass.pencil,34))drag={type:'open'}
+   }else if(compassMode==='arc'){
+      if(hit(p,compass.pencil,38)){
+        let a0=angle(compass.center,compass.pencil);
+        drag={type:'arc',a0,last:a0,current:a0,arcPoints:[pt(compass.pencil.x,compass.pencil.y)]}
+      }
+   }
+ }
+});
+
+cv.addEventListener('pointermove',e=>{
+ if(!drag)return;e.preventDefault();let p=pos(e);
+ if(drag.type==='move'){
+   let dx=p.x-drag.start.x,dy=p.y-drag.start.y;
+   let newC=pt(clamp(drag.c0.x+dx,20,W-20),clamp(drag.c0.y+dy,20,H-20));
+   let newP=pt(clamp(drag.p0.x+dx,20,W-20),clamp(drag.p0.y+dy,20,H-20));
+
+   // 바늘점이 기존 점 가까이 오면 그 점에 자동 스냅
+   const s=nearestSnap(newC,24);
+   if(s){
+     const sx=s.x-newC.x, sy=s.y-newC.y;
+     newC=pt(s.x,s.y);
+     newP=pt(newP.x+sx,newP.y+sy);
+     snapTarget=s;
+   }else{
+     snapTarget=null;
+   }
+
+   compass.center=newC;
+   compass.pencil=newP;
+ }else if(drag.type==='open'){
+   // 중심은 고정, 연필점만 이동하되 기존 점 근처에서는 그 점으로 스냅
+   const s=nearestSnap(p,24);
+   if(s){
+     compass.pencil=pt(s.x,s.y);
+     snapTarget=s;
+   }else{
+     compass.pencil=p;
+     snapTarget=null;
+   }
+ }else if(drag.type==='arc'){
+   snapTarget=null;
+   const r=dist(compass.center,compass.pencil);
+   let a=angle(compass.center,p);
+   drag.current=a;
+   const nextP=pt(compass.center.x+r*Math.cos(a),compass.center.y+r*Math.sin(a));
+   compass.pencil=nextP;
+
+   if(!drag.arcPoints) drag.arcPoints=[pt(nextP.x,nextP.y)];
+   const last=drag.arcPoints[drag.arcPoints.length-1];
+   if(dist(last,nextP)>2){
+     drag.arcPoints.push(pt(nextP.x,nextP.y));
+   }
+ }
+ draw()
+});
+
+function finishDrag(){
+ if(!drag)return;
+ if(drag.type==='arc'){
+   if(drag.arcPoints && drag.arcPoints.length>1){
+     actions.push({
+       t:'arc',
+       c:{...compass.center},
+       r:dist(compass.center,compass.pencil),
+       points:drag.arcPoints.map(q=>pt(q.x,q.y)),
+       col:selectedColor
+     });
+   }else{
+     let da=normAng(drag.current-drag.a0);
+     if(Math.abs(da)>.035){
+       actions.push({t:'arc',c:{...compass.center},r:dist(compass.center,compass.pencil),a1:drag.a0,a2:drag.a0+da,col:selectedColor});
+     }
+   }
+ }
+ drag=null;
+ snapTarget=null;
+ draw()
+}
+cv.addEventListener('pointerup',finishDrag);cv.addEventListener('pointercancel',finishDrag);
+
+function check(){
+  setStatus('삼각형 작도 연습용입니다. 작도 과정을 확인해 보세요.','ok');
+}
+
+function setZoom(next){
+  const old=viewScale;
+  next=Math.max(0.6,Math.min(2.2,next));
+  // 화면 중앙을 기준으로 확대/축소
+  const cx=W/2, cy=H/2;
+  const wx=(cx-viewX)/old, wy=(cy-viewY)/old;
+  viewScale=next;
+  viewX=cx-wx*viewScale;
+  viewY=cy-wy*viewScale;
+  zoomResetBtn.textContent=Math.round(viewScale*100)+'%';
+  draw();
+}
+
+zoomInBtn.onclick=()=>setZoom(viewScale+0.2);
+zoomOutBtn.onclick=()=>setZoom(viewScale-0.2);
+zoomResetBtn.onclick=()=>{
+  viewScale=1;viewX=0;viewY=0;zoomResetBtn.textContent='100%';draw();
+};
+
+t0.onclick=()=>setLesson(0);t1.onclick=()=>setLesson(1);t2.onclick=()=>setLesson(2);t3.onclick=()=>setLesson(3);t4.onclick=()=>setLesson(4);
+lineBtn.onclick=()=>setTool('line');
+rayBtn.onclick=()=>setTool('ray');
+segmentBtn.onclick=()=>setTool('segment');
+compassBtn.onclick=()=>setTool('compass');
+pointBtn.onclick=()=>setTool('point');
+intersectionBtn.onclick=()=>setTool('intersection');
+
+document.querySelectorAll('.colorBtn').forEach(btn=>{
+  btn.onclick=()=>{
+    selectedColor=btn.dataset.color;
+    document.querySelectorAll('.colorBtn').forEach(b=>b.classList.toggle('active',b===btn));
+    setStatus('색상을 변경했습니다.');
+    draw();
+  };
+});
+cmMove.onclick=()=>setCompassMode('move');cmOpen.onclick=()=>setCompassMode('open');cmArc.onclick=()=>setCompassMode('arc');
+undoBtn.onclick=()=>{if(actions.length)actions.pop();else pending=null;draw()};
+resetBtn.onclick=()=>setLesson(lesson);checkBtn.onclick=check;
+hintBtn.onclick=()=>{hintEl.hidden=false;hintEl.innerHTML='<b>힌트 '+(hintStep+1)+'</b><br>'+L[lesson].h[hintStep];hintStep=(hintStep+1)%L[lesson].h.length};
+
+
+const shareOverlay=document.getElementById('shareOverlay');
+const shareUrlInput=document.getElementById('shareUrlInput');
+const qrBox=document.getElementById('qrBox');
+const copyMsg=document.getElementById('copyMsg');
+
+function currentShareUrl(){
+  return location.protocol==='file:' ? '' : location.href.split('#')[0];
+}
+function openShareModal(){
+  shareOverlay.classList.add('show');
+  shareOverlay.setAttribute('aria-hidden','false');
+  copyMsg.textContent='';
+  const u=currentShareUrl();
+  shareUrlInput.value=u;
+  if(u){
+    document.getElementById('shareInfo').textContent='이 주소를 학생들에게 QR코드나 링크로 공유하면 됩니다.';
+    renderQr(u);
+  }else{
+    document.getElementById('shareInfo').textContent='지금은 PC의 파일로 열려 있어 학생들이 이 주소로 접속할 수 없습니다. 나중에 웹에 올린 주소를 아래 칸에 붙여 넣으면 QR코드를 만들 수 있습니다.';
+    qrBox.textContent='웹주소를 입력한 뒤 QR 만들기를 눌러 주세요.';
+  }
+}
+function closeShareModal(){
+  shareOverlay.classList.remove('show');
+  shareOverlay.setAttribute('aria-hidden','true');
+}
+function renderQr(url){
+  qrBox.innerHTML='';
+  if(!url){qrBox.textContent='공유할 웹주소를 입력해 주세요.';return;}
+  const img=document.createElement('img');
+  img.alt='학생 공유 QR코드';
+  img.width=210; img.height=210;
+  img.src='https://quickchart.io/qr?size=420&text='+encodeURIComponent(url);
+  img.onerror=()=>{qrBox.textContent='QR코드를 불러오지 못했습니다. 링크 복사는 그대로 사용할 수 있습니다.';};
+  qrBox.appendChild(img);
+}
+shareOpenBtn.onclick=openShareModal;
+shareCloseBtn.onclick=closeShareModal;
+makeQrBtn.onclick=()=>renderQr(shareUrlInput.value.trim());
+copyLinkBtn.onclick=async()=>{
+  const u=shareUrlInput.value.trim();
+  if(!u){copyMsg.textContent='먼저 공유할 웹주소를 입력해 주세요.';return;}
+  try{
+    await navigator.clipboard.writeText(u);
+    copyMsg.textContent='링크를 복사했습니다.';
+  }catch(e){
+    shareUrlInput.select();
+    document.execCommand('copy');
+    copyMsg.textContent='링크를 복사했습니다.';
+  }
+};
+nativeShareBtn.onclick=async()=>{
+  const u=shareUrlInput.value.trim();
+  if(!u){copyMsg.textContent='먼저 공유할 웹주소를 입력해 주세요.';return;}
+  if(navigator.share){
+    try{await navigator.share({title:'자와 컴퍼스로 삼각형 작도',url:u});}catch(e){}
+  }else{
+    copyMsg.textContent='이 기기에서는 공유창을 지원하지 않습니다. 링크 복사를 사용해 주세요.';
+  }
+};
+shareOverlay.addEventListener('click',e=>{if(e.target===shareOverlay)closeShareModal();});
+fullscreenBtn.onclick=async()=>{
+  try{
+    if(!document.fullscreenElement){
+      await document.documentElement.requestFullscreen();
+      fullscreenBtn.textContent='전체화면 종료';
+    }else{
+      await document.exitFullscreen();
+    }
+  }catch(e){}
+};
+document.addEventListener('fullscreenchange',()=>{
+  fullscreenBtn.textContent=document.fullscreenElement?'전체화면 종료':'전체화면';
+});
+
+setLesson(0);setTool('line');resize();
+</script>
+</body>
+</html>
