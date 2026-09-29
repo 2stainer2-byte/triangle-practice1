@@ -45,6 +45,9 @@ body.phoneMode header{padding:8px 10px}body.phoneMode header h1{font-size:16px;w
 
 /* 세로형 단말기의 조작부와 작도판 */
 html{scroll-behavior:smooth}body.phoneMode{overflow-x:hidden;overscroll-behavior-y:auto}body.phoneMode header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #d8e3df;padding:7px 9px}body.phoneMode header>div{flex-wrap:nowrap!important}body.phoneMode header h1{font-size:14px;line-height:1.35}body.phoneMode .shareTop{flex-wrap:nowrap;flex-shrink:0}body.phoneMode #shareOpenBtn{display:none}body.phoneMode .wrap{width:100%;max-width:100%;min-width:0;overflow:visible;padding:5px;gap:5px}body.phoneMode .panel{min-width:0;padding:5px;gap:5px}body.phoneMode .tabs{max-width:100%;overflow-x:auto;touch-action:pan-x pan-y;scrollbar-width:thin}body.phoneMode .toolGroup .iconBtn{height:44px;min-height:44px}body.phoneMode .toolbar{gap:4px}body.phoneMode .groupName{font-size:10px}body.phoneMode .utility{display:grid;grid-template-columns:1fr auto auto;gap:4px;min-height:40px}body.phoneMode .settingsTools{margin:0}body.phoneMode .utility>button{padding:6px 8px}body.phoneMode .settingsMenu summary{font-size:11px;padding:6px}body.phoneMode .settingsTools #gridBtn{min-width:0;padding:6px}.phoneScrollControls{display:none}body.phoneMode .phoneScrollControls{display:flex;gap:5px;align-items:center}body.phoneMode .phoneScrollControls button{flex:1;min-height:40px;font-size:12px;padding:7px 6px}body.phoneMode .phoneScrollControls button.active{background:#315f95;color:white}body.phoneMode .phoneViews button{min-height:40px}.canvasFrame{display:flex;flex:1;min-height:0}.canvasScrollRail{display:none}body.phoneMode .canvasFrame{height:clamp(330px,58dvh,570px);flex:none;gap:5px}body.phoneMode .canvasbox{height:100%;min-height:0;min-width:0;flex:1;border-radius:9px}body.phoneMode .canvasScrollRail{display:flex;flex-direction:column;align-items:center;justify-content:center;width:25px;flex-shrink:0;gap:8px;background:#e2eae6;border-radius:8px;color:#456554;font-size:12px;font-weight:700;touch-action:pan-y;user-select:none}body.phoneMode .canvasScrollRail span{writing-mode:vertical-rl;letter-spacing:3px}body.phoneMode.scrollCanvas .canvasbox,body.phoneMode.scrollCanvas #cv{touch-action:pan-y pinch-zoom}body.phoneMode.scrollCanvas .canvasbox{border:2px solid #315f95}body.phoneMode.toolsCollapsed .toolbar,body.phoneMode.toolsCollapsed .compassBar{display:none}body.phoneMode .demoControls{display:grid;grid-template-columns:1fr 1fr 1fr;width:100%;gap:5px}body.phoneMode .demoControls button{min-width:0;min-height:40px}body.phoneMode .demoControls .speedLabel{grid-column:1/2}body.phoneMode .demoControls #demoCloseBtn{grid-column:2/4;width:100%;margin:0}body.phoneMode .demoBar #demoCaption{font-size:13px;line-height:1.5}body.phoneMode .hint{font-size:12px}body.phoneMode .settingsPopup{max-width:calc(100vw - 28px)}
+
+/* 스마트폰은 하나의 세로 작도판: 조건 위, 작도 아래 */
+body.phoneMode .phoneViews{display:none}body.phoneMode .canvasFrame{height:auto;aspect-ratio:625/850;max-height:none;min-height:0;flex:none;align-items:stretch}body.phoneMode .canvasbox{height:auto;align-self:stretch;width:0;min-height:0}body.phoneMode .canvasScrollRail{width:20px;font-size:10px}body.phoneMode .toolbar{gap:3px}body.phoneMode .toolGroup{padding:3px;gap:1px}body.phoneMode .toolGroup .iconBtn{height:39px;min-height:39px;font-size:11px;padding:2px;gap:1px}body.phoneMode .ico svg{width:21px;height:21px}body.phoneMode .groupName{font-size:9px}body.phoneMode .toolGroup:last-child{padding:1px 4px}body.phoneMode .toolGroup:last-child .iconBtn{height:31px;min-height:31px;font-size:11px;padding:3px 9px}body.phoneMode .toolGroup:last-child .ico{font-size:18px}body.phoneMode .tabs button{min-height:34px;padding:5px 8px;font-size:11px}body.phoneMode .panel{gap:4px}body.phoneMode .utility{min-height:35px}body.phoneMode .utility button,body.phoneMode .settingsMenu summary{min-height:35px;height:35px}body.phoneMode .settingsTools .iconBtn{height:35px}body.phoneMode .phoneScrollControls{gap:4px}body.phoneMode .phoneScrollControls button{min-height:35px;padding:5px;font-size:11px}body.phoneMode .status{font-size:11px;line-height:1.4;padding:5px 7px;min-height:28px}body.phoneMode header h1{font-size:13px}body.phoneMode header{padding:5px 7px}
 </style>
 </head>
 <body>
@@ -52,7 +55,7 @@ html{scroll-behavior:smooth}body.phoneMode{overflow-x:hidden;overscroll-behavior
   <div class="modeCard"><h2 id="modeTitle">어떤 기기로 작도할까요?</h2><p>사용할 화면을 선택해 주세요.<br>나중에도 상단의 ‘화면 선택’에서 바꿀 수 있어요.</p>
     <div class="modeChoices">
       <button id="wideModeBtn" class="modeChoice"><svg viewBox="0 0 90 70" aria-hidden="true"><rect x="13" y="6" width="64" height="44" rx="4"/><path d="M7 57h76l-5 7H12zM36 57h18"/></svg><strong>노트북 · 태블릿</strong><small>넓은 화면에서 조건과 작도를<br>한눈에 볼 수 있어요.</small></button>
-      <button id="phoneModeBtn" class="modeChoice"><svg viewBox="0 0 90 70" aria-hidden="true"><rect x="28" y="3" width="34" height="64" rx="6"/><path d="M38 9h14M40 61h10"/></svg><strong>세로형 스마트폰</strong><small>세로로 긴 스마트폰에 맞춰<br>버튼과 작도판을 크게 보여 줘요.</small></button>
+      <button id="phoneModeBtn" class="modeChoice"><svg viewBox="0 0 90 70" aria-hidden="true"><rect x="28" y="3" width="34" height="64" rx="6"/><path d="M38 9h14M40 61h10"/></svg><strong>세로형 스마트폰</strong><small>세로로 긴 스마트폰에 맞춰<br>조건은 위, 작도판은 아래에 보여 줘요.</small></button>
     </div>
   </div>
 </div>
@@ -207,7 +210,20 @@ function snapBase(points){
     key,pt(Math.round(p.x/step)*step,Math.round(p.y/step)*step)
   ]));
 }
+function workspaceRect(){
+  return screenMode==='phone'?{x:W*.05,y:H*.35,w:W*.9,h:H*.60}:{x:W*.48,y:H*.12,w:W*.44,h:H*.74};
+}
 function base(){
+  if(screenMode==='phone'){
+    const x=75,a=175,b=150,c=125;
+    if(lesson===0)return snapBase({s1a:pt(x,75),s1b:pt(x+a,75),s2a:pt(x,150),s2b:pt(x+b,150),s3a:pt(x,225),s3b:pt(x+c,225)});
+    if(lesson===1){const V=pt(350,225),r=175,t=-Math.PI/3.2;return snapBase({s1a:pt(60,85),s1b:pt(60+a,85),s2a:pt(60,170),s2b:pt(60+c,170),V,A:pt(V.x+r,V.y),B:pt(V.x+r*Math.cos(t),V.y+r*Math.sin(t))})}
+    if(lesson===2){const vl=pt(100,225),vr=pt(450,225),r=125;return snapBase({baseA:pt(75,75),baseB:pt(75+a,75),angleL:vl,angleR:vr,L1:pt(vl.x+r,vl.y),L2:pt(vl.x+r*.5,vl.y-r*Math.sqrt(3)/2),R1:pt(vr.x-r,vr.y),R2:pt(vr.x-r/Math.sqrt(2),vr.y-r/Math.sqrt(2))})}
+    if(lesson===3)return snapBase({a1:pt(100,150),a2:pt(100+a,150)});
+    const B=pt(350,225),r=175,t=-Math.PI/4.2;
+    return snapBase({a1:pt(60,85),a2:pt(60+a,85),c1:pt(60,170),c2:pt(60+c,170),B,BA:pt(B.x+r*Math.cos(t),B.y+r*Math.sin(t)),BC:pt(B.x+r,B.y)});
+  }
+
   const x=W*.13, short=Math.min(W*.12,H*.18), medium=Math.min(W*.16,H*.22);
   if(lesson===0) return snapBase({
     s1a:pt(x,H*.24),s1b:pt(x+medium,H*.24),
@@ -702,9 +718,9 @@ function demoCopyAngle(source,from,to,target,targetDirection,rayEnd,phase,showSo
 }
 function drawDemo(){
   if(demoStep<0)return;
-  const k=demoStep,g=base(),B=pt(W*.62,H*.69),purple='#7042ae';
-  ctx.fillStyle='rgba(255,255,255,.97)';ctx.fillRect(W*.485,H*.125,W*.43,H*.73);
-  ctx.fillStyle=purple;ctx.font='bold 15px sans-serif';ctx.fillText('작도 시범 · '+(k+1)+'/'+demoCaptions[lesson].length,W*.51,H*.19);
+  const k=demoStep,g=base(),B=screenMode==='phone'?pt(W*.30,H*.72):pt(W*.62,H*.69),purple='#7042ae',area=workspaceRect();
+  ctx.fillStyle='rgba(255,255,255,.97)';ctx.fillRect(area.x+2,area.y+2,area.w-4,area.h-4);
+  ctx.fillStyle=purple;ctx.font='bold 15px sans-serif';ctx.fillText('작도 시범 · '+(k+1)+'/'+demoCaptions[lesson].length,area.x+18,area.y+32);
   let a,b,c,angleB;
   if(lesson===0){a=dist(g.s1a,g.s1b);b=dist(g.s2a,g.s2b);c=dist(g.s3a,g.s3b)}
   else if(lesson===1){a=dist(g.s1a,g.s1b);c=dist(g.s2a,g.s2b);angleB=angle(g.V,g.B)}
@@ -762,10 +778,6 @@ function updateDemo(){
   const bar=document.getElementById('demoBar');bar.hidden=demoStep<0;
   demoBtn.setAttribute('aria-pressed',String(demoStep>=0));
   if(demoStep<0)return;
-  if(screenMode==='phone'){
-    const sourceSteps=lesson===0?[1,3,5]:lesson===3?[1]:lesson===2?[1,3,5,8,10]:[1,3,5,8];
-    phoneView=sourceSteps.includes(demoStep)?'given':'work';syncPhoneView();resize();
-  }
   document.getElementById('demoCaption').textContent=(demoStep+1)+'/'+demoCaptions[lesson].length+'  '+demoCaptions[lesson][demoStep];
   document.getElementById('demoPlayBtn').textContent=demoTimer?'⏸ 멈춤':(demoStep===lastDemoStep()?'↻ 다시 보기':'▶ 재생');
   demoProgress.max=demoCaptions[lesson].length;demoProgress.value=demoStep+1;
@@ -793,9 +805,11 @@ function draw(){
 
  // 왼쪽: 주어진 조건 / 오른쪽: 자유 작도 공간
  ctx.strokeStyle='#d5dde2';ctx.lineWidth=2;
- ctx.setLineDash([8,8]);ctx.strokeRect(W*.48,H*.12,W*.44,H*.74);ctx.setLineDash([]);
+ const area=workspaceRect();
+ ctx.setLineDash([8,8]);ctx.strokeRect(area.x,area.y,area.w,area.h);ctx.setLineDash([]);
  ctx.fillStyle='#aab4ba';ctx.font='15px sans-serif';
- ctx.fillText('작도 공간',W*.50,H*.16);
+ ctx.fillText('작도 공간',area.x+15,area.y+25);
+ if(screenMode==='phone'){ctx.fillStyle='#517264';ctx.font='bold 16px sans-serif';ctx.fillText('주어진 조건',25,25)}
 
  if(lesson===0){
    seg(g.s1a,g.s1b,'#222',3); seg(g.s2a,g.s2b,'#222',3); seg(g.s3a,g.s3b,'#222',3);
@@ -908,14 +922,13 @@ function draw(){
 function resize(){
  let r=box.getBoundingClientRect(),q=Math.min(devicePixelRatio||1,2);
  if(r.width<=0 || r.height<=0)return;
- if(!sceneReady){W=1000;H=640;sceneReady=true}
- const focused=screenMode==='phone' && phoneView!=='all';
- sceneScale=Math.min(r.width/(focused?W*.48:W),r.height/H);
- sceneX=focused?r.width/2-W*(phoneView==='given'?.245:.72)*sceneScale:(r.width-W*sceneScale)/2;
+ if(!sceneReady){W=screenMode==='phone'?600:1000;H=screenMode==='phone'?850:640;sceneReady=true}
+ sceneScale=Math.min(r.width/W,r.height/H);
+ sceneX=(r.width-W*sceneScale)/2;
  sceneY=(r.height-H*sceneScale)/2;
  cv.width=r.width*q;cv.height=r.height*q;ctx.setTransform(q*sceneScale,0,0,q*sceneScale,q*sceneX,q*sceneY);
  if(!compass.visible){
-   compass.center=pt(W*.48,H*.58);compass.pencil=pt(W*.62,H*.58)
+   compass.center=pt(W*(screenMode==='phone'?.35:.48),H*.60);compass.pencil=pt(compass.center.x+(screenMode==='phone'?125:W*.14),compass.center.y)
  }
  draw()
 }
@@ -947,7 +960,7 @@ function setTool(t){
  compassBar.classList.toggle('show',t==='compass');
  if(t!=='intersection') intersectionSelections=[];
  if(t==='compass'){
-   if(!compass.visible){compass.visible=true;compass.center=pt(W*.48,H*.58);compass.pencil=pt(W*.62,H*.58)}
+   if(!compass.visible){compass.visible=true;compass.center=pt(W*(screenMode==='phone'?.35:.48),H*.60);compass.pencil=pt(compass.center.x+(screenMode==='phone'?125:W*.14),compass.center.y)}
    setStatus('컴퍼스: 먼저 이동/간격 조절/호 그리기 중 하나를 선택하세요.')
  }else if(t==='line') setStatus('자(직선): 두 점을 차례로 누르세요. 기존 점·교점·선 근처는 자동으로 맞춰집니다.');
  else if(t==='ray') setStatus('반직선: 첫 점이 시작점, 두 번째 점이 방향점입니다. 기존 점·교점·선 근처는 자동으로 맞춰집니다.');
@@ -1315,13 +1328,16 @@ function chooseView(view){
   phoneView=view;viewScale=1;viewX=0;viewY=0;zoomResetBtn.textContent='100%';syncPhoneView();resize();
 }
 function selectScreenMode(mode){
+  if(mode!==screenMode && actions.length && !confirm('화면 배치를 바꾸면 현재 그린 내용이 초기화됩니다. 바꿀까요?'))return;
+  const changed=mode!==screenMode;
   screenMode=mode;document.body.classList.toggle('phoneMode',mode==='phone');
-  setCanvasScroll(false);
   modeOverlay.hidden=true;document.body.style.overflow='';
+  if(changed){sceneReady=false;resize();setLesson(lesson)}
   if(demoStep>=0)closeDemo();
-  chooseView(mode==='phone'?'given':'all');
-  setStatus(mode==='phone'?'① 조건을 확인한 뒤 ② 작도하기를 누르세요. 시범에서는 화면이 자동으로 이동해요.':'도구를 선택하고 작도해 보세요.');
+  setCanvasScroll(false);phoneView='all';chooseView('all');
+  setStatus(mode==='phone'?'위의 조건을 보고 아래 작도 공간에 그리세요. 화면 이동은 ‘스크롤’을 누르세요.':'도구를 선택하고 작도해 보세요.');
 }
+
 wideModeBtn.onclick=()=>selectScreenMode('wide');phoneModeBtn.onclick=()=>selectScreenMode('phone');
 modeOpenBtn.onclick=()=>{pauseDemo();if(demoStep>=0)updateDemo();modeOverlay.hidden=false;document.body.style.overflow='hidden';wideModeBtn.focus()};
 viewGivenBtn.onclick=()=>chooseView('given');viewWorkBtn.onclick=()=>chooseView('work');viewAllBtn.onclick=()=>chooseView('all');
