@@ -5,49 +5,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>기본도형 작도 연습 v2</title>
 <style>
-:root{
-  --bg:#f6f4ea;--card:#fffdf7;--ink:#222;--accent:#2f6f62;--soft:#dfeee9;
-  --blue:#1565c0;--green:#3a7b67;--red:#d34e32;--muted:#777;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Noto Sans KR","Malgun Gothic",sans-serif;background:var(--bg);color:var(--ink)}
-header{padding:14px 16px;border-bottom:1px solid #ddd8cc;background:rgba(246,244,234,.97);position:sticky;top:0;z-index:3}
-h1{margin:0;font-size:clamp(22px,3vw,34px)} .sub{font-size:14px;color:#666;margin-top:4px}
-.wrap{max-width:1100px;margin:auto;padding:16px}
-.tabs,.tools,.bottom,.compassModes{display:flex;gap:8px;flex-wrap:wrap}
-button{border:0;border-radius:12px;padding:11px 14px;font-size:15px;font-weight:750;background:#ece8df;color:#222;cursor:pointer;touch-action:manipulation}
-button.active{background:var(--accent);color:#fff}
-.panel{background:var(--card);border:1px solid #ddd6ca;border-radius:18px;padding:14px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0}
-.mission{font-size:18px;font-weight:800}
-.status{padding:10px 12px;background:#f0eee8;border-radius:10px;margin-bottom:10px;min-height:42px}
+:root{--bg:#edf2f0;--card:#fff;--ink:#1d2b29;--accent:#176b60;--soft:#e3f2ee;--blue:#1565c0;--muted:#64736f}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans KR","Malgun Gothic",sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:8px 16px;border-bottom:1px solid #d8e3df;background:#fff}
+h1{margin:0;font-size:clamp(17px,1.8vw,23px);white-space:nowrap}.sub{display:none}
+.wrap{width:100%;max-width:none;margin:auto;padding:8px 12px 12px;display:flex;flex-direction:column;gap:8px;height:calc(100dvh - 49px);min-height:500px}
+.tabs,.tools,.bottom,.compassModes{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tabs{flex:none;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+button{border:0;border-radius:10px;padding:8px 11px;font-size:14px;font-weight:750;background:#edf1ef;color:var(--ink);cursor:pointer;touch-action:manipulation;white-space:nowrap;min-height:38px}
+button.active{background:var(--accent);color:#fff}.tabs button{flex:none}
+.panel{background:var(--card);border:1px solid #dbe5e1;border-radius:14px;padding:8px;flex:1;min-height:0;display:flex;flex-direction:column;gap:7px}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0}.toolbar{justify-content:space-between}.toolbar .tools{flex:1}
+.mission:empty{display:none}.mission{font-size:16px;font-weight:800}.status{padding:6px 10px;background:#f2f5f3;border-radius:8px;min-height:32px;font-size:13px;line-height:20px}
 .status.ok{background:#e5f5e7;color:#246a38}.status.bad{background:#f8e7e2;color:#8a3a28}
-.canvasbox{width:100%;aspect-ratio:16/10;position:relative;background:#fff;border:2px solid #bbb4a6;border-radius:14px;overflow:hidden;touch-action:none}
+.canvasbox{width:100%;flex:1;min-height:230px;position:relative;background:#fff;border:1px solid #bdccc5;border-radius:10px;overflow:hidden;touch-action:none}
 canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
-.compassBar{display:none;margin:8px 0 10px;padding:10px;border-radius:12px;background:#eef4f1;border:1px solid #d3e2dc}
-.compassBar.show{display:block}
-.compassTitle{font-weight:800;margin-bottom:7px}
-.hint{margin-top:10px;padding:12px;background:#f7f1df;border-left:5px solid #d6ad49;border-radius:10px;line-height:1.6}
-.small{font-size:13px;color:#666;margin-top:8px;line-height:1.5}
-.badge{display:inline-block;border-radius:999px;padding:2px 7px;background:#e8eee9;color:#355f55;font-weight:700}
-@media(max-width:640px){.canvasbox{aspect-ratio:4/5}.mission{font-size:16px}button{font-size:14px;padding:10px 12px}}
-
-.shareTop{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
-.shareBtn{background:#315f95;color:#fff}
-.fullBtn{background:#4a4a4a;color:#fff}
-.modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}
-.modalOverlay.show{display:flex}
-.shareModal{width:min(520px,100%);background:#fff;border-radius:18px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}
-.shareModal h2{margin:0 0 8px;font-size:23px}
-.shareModal p{margin:6px 0 12px;color:#555;line-height:1.5}
-.shareInputRow{display:flex;gap:8px}
-.shareInputRow input{flex:1;min-width:0;border:1px solid #bbb;border-radius:10px;padding:11px;font-size:15px}
-.qrWrap{display:flex;justify-content:center;align-items:center;min-height:230px;margin:14px 0;background:#fafafa;border:1px dashed #ccc;border-radius:14px;padding:12px}
-#qrBox img,#qrBox canvas{max-width:210px!important;max-height:210px!important}
-.modalBtns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-.copyOk{color:#246a38;font-weight:700;min-height:22px}
-@media(max-width:640px){.shareTop{width:100%}.shareTop button{flex:1}}
-
+.compassBar{display:none;padding:7px;border-radius:10px;background:#eef4f1;border:1px solid #d3e2dc}.compassBar.show{display:flex;align-items:center;gap:10px}.compassTitle{font-weight:800;white-space:nowrap}.compassBar .small{display:none}
+.hint{padding:8px;background:#f7f1df;border-left:4px solid #d6ad49;border-radius:8px;line-height:1.45;font-size:13px}.hint[hidden]{display:none}.small{font-size:13px;color:#666;line-height:1.5}.badge{display:inline-block;border-radius:999px;padding:2px 7px;background:#e8eee9;color:#355f55;font-weight:700}
+.iconBtn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:57px;height:51px;padding:4px 6px;font-size:11px;line-height:1.1}.iconBtn .ico{font-size:23px;font-weight:600;line-height:25px}.toolbar .tools{gap:4px}.colorTools{margin-left:auto}.colorBtn{width:31px;height:31px;min-height:31px;border-radius:50%;padding:0;font-size:0;border:2px solid white;box-shadow:0 0 0 1px #bac8c2}.colorBtn.active{box-shadow:0 0 0 3px var(--accent)}.separator{height:32px;width:1px;background:#d7e0db;margin:0 3px}.utility{justify-content:flex-end;flex:none}.utility .iconBtn{height:43px;min-width:51px}.utility .ico{font-size:20px;line-height:20px}
+.shareTop{display:flex;gap:6px;margin-left:auto}.shareBtn{background:#315f95;color:#fff}.fullBtn{background:#4a4a4a;color:#fff}header .iconBtn{height:32px;min-height:32px;flex-direction:row;gap:5px;font-size:12px}header .ico{font-size:17px;line-height:20px}
+.modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}.modalOverlay.show{display:flex}.shareModal{width:min(520px,100%);background:#fff;border-radius:18px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.shareModal h2{margin:0 0 8px;font-size:23px}.shareModal p{margin:6px 0 12px;color:#555;line-height:1.5}.shareInputRow{display:flex;gap:8px}.shareInputRow input{flex:1;min-width:0;border:1px solid #bbb;border-radius:10px;padding:11px;font-size:15px}.qrWrap{display:flex;justify-content:center;align-items:center;min-height:230px;margin:14px 0;background:#fafafa;border:1px dashed #ccc;border-radius:14px;padding:12px}#qrBox img,#qrBox canvas{max-width:210px!important;max-height:210px!important}.modalBtns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}.copyOk{color:#246a38;font-weight:700;min-height:22px}
+@media(max-width:900px){.wrap{height:auto;min-height:calc(100dvh - 49px)}.canvasbox{height:62dvh;flex:none}.toolbar{justify-content:flex-start}.colorTools{margin-left:0}.utility{justify-content:flex-start}}
+@media(max-height:680px) and (min-width:901px){.wrap{padding-top:5px;gap:4px}.panel{gap:4px}.iconBtn{height:44px}.tabs button{min-height:32px;padding:5px 10px}.status{min-height:27px;padding:3px 10px}}
 </style>
 </head>
 <body>
@@ -58,8 +37,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
       <div class="sub">기존 작도 도구를 그대로 사용하여 삼각형을 직접 작도할 수 있습니다.</div>
     </div>
     <div class="shareTop">
-      <button id="shareOpenBtn" class="shareBtn">학생에게 공유</button>
-      <button id="fullscreenBtn" class="fullBtn">전체화면</button>
+      <button id="shareOpenBtn" class="shareBtn iconBtn" title="학생에게 공유" aria-label="학생에게 공유"><span class="ico" aria-hidden="true">↗</span>공유</button>
+      <button id="fullscreenBtn" class="fullBtn iconBtn" title="전체화면" aria-label="전체화면"><span class="ico" aria-hidden="true">⛶</span>전체화면</button>
     </div>
   </div>
 </header>
@@ -74,18 +53,26 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
   </div>
 
   <div class="panel">
-    <div class="row">
+    <div class="row toolbar">
       <div class="mission" id="mission"></div>
-      <div class="tools">
-        <button id="lineBtn" class="active">자(직선)</button>
-        <button id="rayBtn">반직선</button>
-        <button id="segmentBtn">선분</button>
-        <button id="compassBtn">컴퍼스</button>
-        <button id="pointBtn">점</button>
-        <button id="intersectionBtn">교점</button>
+      <div class="tools" role="toolbar" aria-label="작도 도구">
+        <button id="lineBtn" class="iconBtn active" title="자(직선)" aria-label="자(직선)"><span class="ico" aria-hidden="true">⟷</span>직선</button>
+        <button id="rayBtn" class="iconBtn" title="반직선" aria-label="반직선"><span class="ico" aria-hidden="true">⟶</span>반직선</button>
+        <button id="segmentBtn" class="iconBtn" title="선분" aria-label="선분"><span class="ico" aria-hidden="true">━</span>선분</button>
+        <button id="compassBtn" class="iconBtn" title="컴퍼스" aria-label="컴퍼스"><span class="ico" aria-hidden="true">◉</span>컴퍼스</button>
+        <button id="pointBtn" class="iconBtn" title="점" aria-label="점"><span class="ico" aria-hidden="true">•</span>점</button>
+        <button id="intersectionBtn" class="iconBtn" title="교점" aria-label="교점"><span class="ico" aria-hidden="true">✣</span>교점</button>
+        <span class="separator" aria-hidden="true"></span>
+        <button id="gridBtn" class="iconBtn" title="격자 켜기" aria-label="격자 켜기" aria-pressed="false"><span class="ico" aria-hidden="true">▦</span>격자</button>
+        <div class="tools colorTools" id="colorTools" aria-label="색상">
+          <button class="colorBtn active" data-color="#1565c0" title="파랑" aria-label="파랑" style="background:#1565c0">파랑</button>
+          <button class="colorBtn" data-color="#d34e32" title="빨강" aria-label="빨강" style="background:#d34e32">빨강</button>
+          <button class="colorBtn" data-color="#2e7d32" title="초록" aria-label="초록" style="background:#2e7d32">초록</button>
+          <button class="colorBtn" data-color="#111111" title="검정" aria-label="검정" style="background:#111">검정</button>
+          <button class="colorBtn" data-color="#8e44ad" title="보라" aria-label="보라" style="background:#8e44ad">보라</button>
+        </div>
       </div>
     </div>
-
     <div id="compassBar" class="compassBar">
       <div class="compassTitle">컴퍼스 조작</div>
       <div class="compassModes">
@@ -100,30 +87,20 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
       </div>
     </div>
 
-    <div class="row" style="margin-top:0">
-      <div style="font-weight:800">색상</div>
-      <div class="tools" id="colorTools">
-        <button class="colorBtn active" data-color="#1565c0" style="background:#1565c0;color:white">파랑</button>
-        <button class="colorBtn" data-color="#d34e32" style="background:#d34e32;color:white">빨강</button>
-        <button class="colorBtn" data-color="#2e7d32" style="background:#2e7d32;color:white">초록</button>
-        <button class="colorBtn" data-color="#111111" style="background:#111;color:white">검정</button>
-        <button class="colorBtn" data-color="#8e44ad" style="background:#8e44ad;color:white">보라</button>
-      </div>
+    <div class="bottom utility" role="toolbar" aria-label="작도 조작">
+      <button id="hintBtn" class="iconBtn" title="힌트" aria-label="힌트"><span class="ico" aria-hidden="true">?</span>힌트</button>
+      <button id="undoBtn" class="iconBtn" title="되돌리기" aria-label="되돌리기"><span class="ico" aria-hidden="true">↶</span>되돌리기</button>
+      <button id="resetBtn" class="iconBtn" title="처음부터" aria-label="처음부터"><span class="ico" aria-hidden="true">⟲</span>초기화</button>
+      <button id="checkBtn" class="iconBtn" title="정답 확인" aria-label="정답 확인"><span class="ico" aria-hidden="true">✓</span>확인</button>
+      <span class="separator" aria-hidden="true"></span>
+      <button id="zoomOutBtn" class="iconBtn" title="축소" aria-label="축소"><span class="ico" aria-hidden="true">−</span>축소</button>
+      <button id="zoomResetBtn" title="배율 초기화" aria-label="배율 초기화">100%</button>
+      <button id="zoomInBtn" class="iconBtn" title="확대" aria-label="확대"><span class="ico" aria-hidden="true">＋</span>확대</button>
     </div>
 
     <div id="status" class="status">도구를 선택하고 작도해 보세요.</div>
 
     <div class="canvasbox" id="box"><canvas id="cv"></canvas></div>
-
-    <div class="bottom" style="margin-top:10px">
-      <button id="hintBtn">힌트</button>
-      <button id="undoBtn">되돌리기</button>
-      <button id="resetBtn">처음부터</button>
-      <button id="checkBtn">정답 확인</button>
-      <button id="zoomOutBtn">축소 −</button>
-      <button id="zoomResetBtn">100%</button>
-      <button id="zoomInBtn">확대 +</button>
-    </div>
 
     <div id="hint" class="hint" hidden></div>
   </div>
@@ -154,7 +131,7 @@ const mission=document.getElementById('mission'), statusEl=document.getElementBy
 const compassBar=document.getElementById('compassBar');
 
 let lesson=0, tool='line', compassMode='move', actions=[], pending=null, hintStep=0, W=900,H=560, selectedColor='#1565c0';
-let viewScale=1, viewX=0, viewY=0;
+let viewScale=1, viewX=0, viewY=0, gridVisible=false;
 let drag=null;
 let snapTarget=null;
 let intersectionSelections=[];
@@ -185,51 +162,46 @@ function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 function angle(c,p){return Math.atan2(p.y-c.y,p.x-c.x)}
 function normAng(a){while(a<=-Math.PI)a+=Math.PI*2;while(a>Math.PI)a-=Math.PI*2;return a}
 
+function snapBase(points){
+  const step=25;
+  return Object.fromEntries(Object.entries(points).map(([key,p])=>[
+    key,pt(Math.round(p.x/step)*step,Math.round(p.y/step)*step)
+  ]));
+}
 function base(){
-  const leftX=W*.14, midX=W*.31;
-  if(lesson===0){
-    return{
-      s1a:pt(leftX,H*.24), s1b:pt(midX,H*.24),
-      s2a:pt(leftX,H*.42), s2b:pt(W*.28,H*.42),
-      s3a:pt(leftX,H*.60), s3b:pt(W*.25,H*.60)
-    };
-  }
+  const x=W*.13, short=Math.min(W*.12,H*.18), medium=Math.min(W*.16,H*.22);
+  if(lesson===0) return snapBase({
+    s1a:pt(x,H*.24),s1b:pt(x+medium,H*.24),
+    s2a:pt(x,H*.43),s2b:pt(x+short,H*.43),
+    s3a:pt(x,H*.62),s3b:pt(x+short*.78,H*.62)
+  });
   if(lesson===1){
-    const V=pt(W*.20,H*.60), r=W*.14, ang=-Math.PI/3.2;
-    return{
-      s1a:pt(leftX,H*.24), s1b:pt(midX,H*.24),
-      s2a:pt(leftX,H*.39), s2b:pt(W*.27,H*.39),
-      V, A:pt(V.x+r,V.y), B:pt(V.x+r*Math.cos(ang),V.y+r*Math.sin(ang))
-    };
+    const V=pt(W*.20,H*.76),r=Math.min(W*.20,H*.26),ang=-Math.PI/3.2;
+    return snapBase({
+      s1a:pt(x,H*.19),s1b:pt(x+medium,H*.19),
+      s2a:pt(x,H*.34),s2b:pt(x+short,H*.34),
+      V,A:pt(V.x+r,V.y),B:pt(V.x+r*Math.cos(ang),V.y+r*Math.sin(ang))
+    });
   }
   if(lesson===2){
-    const VL=pt(W*.18,H*.58), VR=pt(W*.34,H*.58);
-    const r=W*.105;
-    return{
-      baseA:VL, baseB:VR,
-      L1:pt(VL.x+r,VL.y),
-      L2:pt(VL.x+r*Math.cos(-Math.PI/3),VL.y+r*Math.sin(-Math.PI/3)),
-      R1:pt(VR.x-r,VR.y),
-      R2:pt(VR.x+r*Math.cos(-Math.PI+Math.PI/4),VR.y+r*Math.sin(-Math.PI+Math.PI/4))
-    };
+    const VL=pt(W*.15,H*.73),VR=pt(W*.39,H*.73),r=Math.min(W*.105,H*.19);
+    return snapBase({
+      baseA:pt(x,H*.22),baseB:pt(x+medium,H*.22),
+      L1:pt(VL.x+r,VL.y),L2:pt(VL.x+r*Math.cos(-Math.PI/3),VL.y+r*Math.sin(-Math.PI/3)),
+      R1:pt(VR.x-r,VR.y),R2:pt(VR.x+r*Math.cos(-Math.PI+Math.PI/4),VR.y+r*Math.sin(-Math.PI+Math.PI/4)),
+      angleL:VL,angleR:VR
+    });
   }
-  if(lesson===3){
-    return{
-      a1:pt(W*.15,H*.30), a2:pt(W*.31,H*.30)
-    };
-  }
+  if(lesson===3) return snapBase({a1:pt(x,H*.30),a2:pt(x+medium,H*.30)});
   if(lesson===4){
-    const B=pt(W*.20,H*.64);
-    const ang=-Math.PI/4.2, rr=W*.13;
-    return{
-      a1:pt(W*.14,H*.23), a2:pt(W*.30,H*.23),
-      c1:pt(W*.14,H*.38), c2:pt(W*.26,H*.38),
-      B,
-      BA:pt(B.x+rr*Math.cos(ang),B.y+rr*Math.sin(ang)),
-      BC:pt(B.x+rr,B.y)
-    };
+    const B=pt(W*.20,H*.76),rr=Math.min(W*.20,H*.26),ang=-Math.PI/4.2;
+    return snapBase({
+      a1:pt(x,H*.18),a2:pt(x+medium,H*.18),
+      c1:pt(x,H*.34),c2:pt(x+short,H*.34),
+      B,BA:pt(B.x+rr*Math.cos(ang),B.y+rr*Math.sin(ang)),BC:pt(B.x+rr,B.y)
+    });
   }
-  return{};
+  return {};
 }
 
 function snapCandidates(){
@@ -286,10 +258,10 @@ function baseLineActions(){
   if(lesson===2){
     return[
       {t:'s',a:g.baseA,b:g.baseB,baseKey:'BASE'},
-      {t:'s',a:g.baseA,b:g.L1,baseKey:'L1'},
-      {t:'s',a:g.baseA,b:g.L2,baseKey:'L2'},
-      {t:'s',a:g.baseB,b:g.R1,baseKey:'R1'},
-      {t:'s',a:g.baseB,b:g.R2,baseKey:'R2'}
+      {t:'s',a:g.angleL,b:g.L1,baseKey:'L1'},
+      {t:'s',a:g.angleL,b:g.L2,baseKey:'L2'},
+      {t:'s',a:g.angleR,b:g.R1,baseKey:'R1'},
+      {t:'s',a:g.angleR,b:g.R2,baseKey:'R2'}
     ];
   }
   if(lesson===3){
@@ -462,12 +434,22 @@ function nearestIntersection(p, threshold=32){
   return best;
 }
 
+function nearestGridPoint(p){
+  if(!gridVisible) return null;
+  const step=25;
+  const q=pt(Math.round(p.x/step)*step,Math.round(p.y/step)*step);
+  if(q.x<0 || q.x>W || q.y<0 || q.y>H) return null;
+  return dist(p,q)<=17/Math.max(viewScale,0.01)?q:null;
+}
+
 function smartPointSnap(p){
   // 우선순위: 기존 점 > 두 선의 교점 > 선 위의 최근접점
   const fixed=nearestSnap(p,24);
   if(fixed) return {p:pt(fixed.x,fixed.y),kind:'point'};
   const inter=nearestIntersection(p,32);
   if(inter) return {p:pt(inter.x,inter.y),kind:'intersection'};
+  const grid=nearestGridPoint(p);
+  if(grid) return {p:grid,kind:'grid'};
   const onLine=nearestLinePoint(p,18);
   if(onLine) return {p:pt(onLine.x,onLine.y),kind:'line'};
   return {p,kind:'free'};
@@ -561,9 +543,17 @@ function drawCompass(){
  }
 }
 
+function drawGrid(){
+  const step=25;
+  ctx.save();ctx.lineWidth=1/viewScale;
+  for(let x=0;x<=W;x+=step){ctx.strokeStyle=x%100===0?'#d0ded8':'#e8efeb';ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+  for(let y=0;y<=H;y+=step){ctx.strokeStyle=y%100===0?'#d0ded8':'#e8efeb';ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+  ctx.restore();
+}
 function draw(){
- ctx.clearRect(0,0,W,H);ctx.fillStyle='#f8f8f8';ctx.fillRect(0,0,W,H);
+ ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfcfb';ctx.fillRect(0,0,W,H);
  applyView();
+ if(gridVisible) drawGrid();
  let g=base();
 
  // 왼쪽: 주어진 조건 / 오른쪽: 자유 작도 공간
@@ -590,15 +580,15 @@ function draw(){
  }
  if(lesson===2){
    seg(g.baseA,g.baseB,'#222',3);
-   seg(g.baseA,g.L1,'#222',2.4); seg(g.baseA,g.L2,'#222',2.4);
-   seg(g.baseB,g.R1,'#222',2.4); seg(g.baseB,g.R2,'#222',2.4);
-   smallAngleArc(g.baseA,g.L1,g.L2,20,'#666');
-   smallAngleArc(g.baseB,g.R1,g.R2,20,'#666');
+   seg(g.angleL,g.L1,'#222',2.4); seg(g.angleL,g.L2,'#222',2.4);
+   seg(g.angleR,g.R1,'#222',2.4); seg(g.angleR,g.R2,'#222',2.4);
+   smallAngleArc(g.angleL,g.L1,g.L2,20,'#666');
+   smallAngleArc(g.angleR,g.R1,g.R2,20,'#666');
    ctx.fillStyle='#555';ctx.font='16px sans-serif';
    ctx.fillText('c', (g.baseA.x+g.baseB.x)/2-4, g.baseA.y+26);
    ctx.font='italic 20px serif';
-   ctx.fillText('A',g.baseA.x+18,g.baseA.y-8);
-   ctx.fillText('B',g.baseB.x-32,g.baseB.y-8);
+   ctx.fillText('A',g.angleL.x+18,g.angleL.y-8);
+   ctx.fillText('B',g.angleR.x-32,g.angleR.y-8);
  }
 
  if(lesson===3){
@@ -794,6 +784,7 @@ cv.addEventListener('pointerdown',e=>{
      if(snap.kind==='point') setStatus('기존 점에 맞춰 정확히 점을 찍었습니다.');
      else if(snap.kind==='intersection') setStatus('두 선의 교점에 맞춰 정확히 점을 찍었습니다.');
      else if(snap.kind==='line') setStatus('선 위에 정확히 점을 찍었습니다.');
+     else if(snap.kind==='grid') setStatus('격자 교점에 맞춰 정확히 점을 찍었습니다.');
      setTimeout(()=>{snapTarget=null;draw()},350);
    }
    draw();
@@ -808,7 +799,7 @@ cv.addEventListener('pointerdown',e=>{
      pending=target;
      if(snap.kind!=='free'){
        snapTarget=target;
-       const txt=snap.kind==='point'?'기존 점':snap.kind==='intersection'?'교점':'선 위';
+       const txt=snap.kind==='point'?'기존 점':snap.kind==='intersection'?'교점':snap.kind==='grid'?'격자 교점':'선 위';
        const toolName=tool==='line'?'직선':(tool==='ray'?'반직선':'선분');
        setStatus(toolName+' 시작점을 '+txt+'에 맞췄습니다.');
        setTimeout(()=>{snapTarget=null;draw()},300);
@@ -822,7 +813,7 @@ cv.addEventListener('pointerdown',e=>{
    }
    if(snap.kind!=='free'){
      snapTarget=target;
-     const txt=snap.kind==='point'?'기존 점':snap.kind==='intersection'?'교점':'선 위';
+     const txt=snap.kind==='point'?'기존 점':snap.kind==='intersection'?'교점':snap.kind==='grid'?'격자 교점':'선 위';
      const toolName=tool==='line'?'직선':(tool==='ray'?'반직선':'선분');
      setStatus(toolName+' 끝점을 '+txt+'에 맞췄습니다.');
      setTimeout(()=>{snapTarget=null;draw()},300);
@@ -950,6 +941,14 @@ segmentBtn.onclick=()=>setTool('segment');
 compassBtn.onclick=()=>setTool('compass');
 pointBtn.onclick=()=>setTool('point');
 intersectionBtn.onclick=()=>setTool('intersection');
+gridBtn.onclick=()=>{
+  gridVisible=!gridVisible;
+  gridBtn.classList.toggle('active',gridVisible);
+  gridBtn.setAttribute('aria-pressed',String(gridVisible));
+  gridBtn.title=gridVisible?'격자 끄기':'격자 켜기';
+  gridBtn.setAttribute('aria-label',gridBtn.title);
+  draw();
+};
 
 document.querySelectorAll('.colorBtn').forEach(btn=>{
   btn.onclick=()=>{
