@@ -22,14 +22,37 @@ button.active{background:var(--accent);color:#fff}.tabs button{flex:none}
 canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
 .compassBar{display:none;padding:7px;border-radius:10px;background:#eef4f1;border:1px solid #d3e2dc}.compassBar.show{display:flex;align-items:center;gap:10px}.compassTitle{font-weight:800;white-space:nowrap}.compassBar .small{display:none}
 .hint{padding:8px;background:#f7f1df;border-left:4px solid #d6ad49;border-radius:8px;line-height:1.45;font-size:13px}.hint[hidden]{display:none}.small{font-size:13px;color:#666;line-height:1.5}.badge{display:inline-block;border-radius:999px;padding:2px 7px;background:#e8eee9;color:#355f55;font-weight:700}
-.iconBtn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:57px;height:51px;padding:4px 6px;font-size:11px;line-height:1.1}.iconBtn .ico{font-size:23px;font-weight:600;line-height:25px}.toolbar .tools{gap:4px}.colorTools{margin-left:auto}.colorBtn{width:31px;height:31px;min-height:31px;border-radius:50%;padding:0;font-size:0;border:2px solid white;box-shadow:0 0 0 1px #bac8c2}.colorBtn.active{box-shadow:0 0 0 3px var(--accent)}.separator{height:32px;width:1px;background:#d7e0db;margin:0 3px}.utility{justify-content:flex-end;flex:none}.utility .iconBtn{height:43px;min-width:51px}.utility .ico{font-size:20px;line-height:20px}
+.iconBtn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:57px;height:51px;padding:4px 6px;font-size:11px;line-height:1.1}.iconBtn .ico{font-size:23px;font-weight:600;line-height:25px}.toolbar .tools{gap:4px}.colorTools{margin-left:auto}.colorBtn{width:31px;height:31px;min-height:31px;border-radius:50%;padding:0;font-size:0;border:2px solid white;box-shadow:0 0 0 1px #bac8c2}.colorBtn.active{box-shadow:0 0 0 3px var(--accent)}.separator{height:32px;width:1px;background:#d7e0db;margin:0 3px}.utility{justify-content:flex-end;flex:none}.demoBar{display:flex;align-items:center;gap:6px;padding:5px 8px;background:#f0eafa;border-radius:9px;font-size:14px;color:#432477}.demoBar[hidden]{display:none}.demoBar button{min-height:30px;padding:5px 9px;background:#e4d8f4;color:#432477}.demoBar #demoCaption{flex:1;font-weight:650}.demoBar #demoCloseBtn{margin-left:auto}.utility .iconBtn{height:43px;min-width:51px}.utility .ico{font-size:20px;line-height:20px}
 .shareTop{display:flex;gap:6px;margin-left:auto}.shareBtn{background:#315f95;color:#fff}.fullBtn{background:#4a4a4a;color:#fff}header .iconBtn{height:32px;min-height:32px;flex-direction:row;gap:5px;font-size:12px}header .ico{font-size:17px;line-height:20px}
 .modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}.modalOverlay.show{display:flex}.shareModal{width:min(520px,100%);background:#fff;border-radius:18px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.25)}.shareModal h2{margin:0 0 8px;font-size:23px}.shareModal p{margin:6px 0 12px;color:#555;line-height:1.5}.shareInputRow{display:flex;gap:8px}.shareInputRow input{flex:1;min-width:0;border:1px solid #bbb;border-radius:10px;padding:11px;font-size:15px}.qrWrap{display:flex;justify-content:center;align-items:center;min-height:230px;margin:14px 0;background:#fafafa;border:1px dashed #ccc;border-radius:14px;padding:12px}#qrBox img,#qrBox canvas{max-width:210px!important;max-height:210px!important}.modalBtns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}.copyOk{color:#246a38;font-weight:700;min-height:22px}
 @media(max-width:900px){.wrap{height:auto;min-height:calc(100dvh - 49px)}.canvasbox{height:62dvh;flex:none}.toolbar{justify-content:flex-start}.colorTools{margin-left:0}.utility{justify-content:flex-start}}
 @media(max-height:680px) and (min-width:901px){.wrap{padding-top:5px;gap:4px}.panel{gap:4px}.iconBtn{height:44px}.tabs button{min-height:32px;padding:5px 10px}.status{min-height:27px;padding:3px 10px}}
+
+/* 학생용 도구 모음 */
+.toolGroup{display:flex;align-items:center;gap:10px;padding:6px 10px;border:1px solid #e0e8e4;border-radius:12px;background:#f8faf9}
+.groupName{font-size:12px;font-weight:800;color:#5b6c64;white-space:nowrap}.groupButtons{display:flex;gap:5px}
+.toolbar{justify-content:flex-start;gap:8px}.toolGroup .iconBtn{height:52px;min-width:62px;font-size:12px;background:transparent;gap:3px}.toolGroup .iconBtn.active{background:#176b60;color:white;box-shadow:0 2px 5px #176b6022}
+.ico svg{width:25px;height:25px;display:block}.utility{justify-content:flex-start;gap:7px;min-height:46px}.utility button{min-height:42px}
+.demoLaunch{background:#7042ae;color:white;padding:10px 20px;font-size:16px}.demoLaunch[aria-pressed="true"]{background:#4f2b80}.settingsTools{margin-left:auto;display:flex;align-items:center;gap:8px}.settingsTools .iconBtn{flex-direction:row;gap:6px;font-size:14px;padding:6px 12px;height:42px}.settingsMenu{position:relative}.settingsMenu summary{display:flex;align-items:center;gap:7px;list-style:none;cursor:pointer;background:#edf1ef;border-radius:10px;min-height:42px;padding:8px 12px;font-weight:700;font-size:14px}.settingsMenu summary::-webkit-details-marker{display:none}#currentColor{width:15px;height:15px;border-radius:50%;background:#1565c0}
+.settingsPopup{position:absolute;right:0;top:calc(100% + 7px);z-index:10;width:260px;background:white;border:1px solid #d8e3de;box-shadow:0 8px 30px #193b2526;padding:17px;border-radius:14px;display:flex;flex-direction:column;gap:15px}.settingsPopup strong{font-size:13px;color:#5b6c64}.settingsPopup .colorTools{margin:0;justify-content:space-between}.settingsPopup .colorBtn{width:34px;height:34px;min-height:34px}.zoomControls{display:flex;gap:8px;align-items:center;justify-content:space-between}.zoomControls .iconBtn{min-width:55px}
+.demoBar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 15px;padding:11px 14px;border:1px solid #d5c3ef;background:#f7f2ff}.demoDescription{display:flex;flex-direction:column;gap:5px;flex:1;min-width:300px}.demoEyebrow{font-size:11px;font-weight:800;color:#79559c}.demoBar #demoCaption{font-size:15px;line-height:1.45}.demoControls{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.demoBar button{min-height:40px;padding:8px 11px;font-size:13px}.demoBar #demoPlayBtn{background:#7042ae;color:white;min-width:80px}.demoBar #demoCloseBtn{background:transparent;border:1px solid #ceb8e6;margin-left:0}.speedLabel{display:flex;gap:5px;align-items:center;font-size:12px}.speedLabel select{padding:8px 5px;border:1px solid #ceb8e6;background:white;border-radius:8px;font:inherit;min-height:40px}progress{width:100%;height:5px;accent-color:#7042ae;border:0}.status{font-size:14px}button:disabled{opacity:.38;cursor:default}button:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid #d99721;outline-offset:2px}
+@media(max-width:1100px){.toolGroup{gap:6px;padding:5px}.groupName{writing-mode:vertical-rl;letter-spacing:1px}.toolGroup .iconBtn{min-width:55px}.demoControls{width:100%}}
+@media(max-width:640px){.toolbar{gap:5px}.toolGroup .iconBtn{min-width:45px}.toolGroup{gap:3px}.groupName{display:none}.settingsTools{margin-left:0}.demoDescription{min-width:0;flex-basis:100%}.demoLaunch{padding:9px 12px}.utility{flex-wrap:wrap}}
+
+.modeOverlay{position:fixed;inset:0;z-index:100;background:#edf2f0;display:flex;align-items:center;justify-content:center;padding:22px;overflow:auto}.modeOverlay[hidden]{display:none}.modeCard{width:min(650px,100%);text-align:center}.modeCard h2{font-size:clamp(24px,4vw,32px);margin:0 0 12px}.modeCard p{color:#61716a;line-height:1.6;margin:0 0 25px}.modeChoices{display:grid;grid-template-columns:1fr 1fr;gap:16px}.modeChoice{display:flex;align-items:center;flex-direction:column;gap:14px;background:white;border:2px solid #d1dfd8;padding:28px 16px;border-radius:20px;font-size:18px;white-space:normal}.modeChoice:hover,.modeChoice:focus-visible{border-color:#176b60;background:#f5fcf8}.modeChoice svg{width:78px;height:66px;stroke:#176b60;fill:none;stroke-width:2.5}.modeChoice small{font-weight:400;font-size:13px;line-height:1.5;color:#64756c}.phoneViews{display:none}
+body.phoneMode header{padding:8px 10px}body.phoneMode header h1{font-size:16px;white-space:normal}body.phoneMode header>div{gap:6px!important;align-items:center!important}body.phoneMode .shareTop{gap:4px}body.phoneMode .shareTop button{font-size:11px;padding:5px 7px}body.phoneMode .wrap{height:auto;min-height:0;padding:6px;gap:6px}body.phoneMode .tabs{gap:4px}body.phoneMode .tabs button{font-size:12px;padding:7px 9px;min-height:38px}body.phoneMode .panel{padding:6px;gap:6px}body.phoneMode .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:5px}body.phoneMode .toolGroup{display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:5px}body.phoneMode .groupName{display:block;writing-mode:horizontal-tb;letter-spacing:0;font-size:10px;text-align:center}body.phoneMode .groupButtons{display:flex;justify-content:space-around;gap:2px}body.phoneMode .toolGroup .iconBtn{min-width:0;flex:1;font-size:12px;height:48px;padding:3px 4px}body.phoneMode .toolGroup:last-child{grid-column:1/-1;flex-direction:row;align-items:center;padding:3px 6px}body.phoneMode .toolGroup:last-child .groupButtons{flex:1;justify-content:flex-end}body.phoneMode .toolGroup:last-child .iconBtn{height:36px;min-height:36px;flex:0 1 auto;flex-direction:row;gap:6px;padding:4px 12px}body.phoneMode .utility{gap:5px;flex-wrap:wrap}body.phoneMode .demoLaunch{font-size:14px;padding:8px 12px}body.phoneMode .utility button{font-size:12px;min-height:40px}body.phoneMode .settingsTools{margin-left:auto;gap:4px}body.phoneMode .settingsMenu summary{font-size:12px;padding:7px;min-height:40px}body.phoneMode .settingsTools .iconBtn{font-size:12px;padding:5px 7px}body.phoneMode .status{font-size:12px;line-height:1.5;min-height:32px}body.phoneMode .compassBar.show{flex-wrap:wrap;gap:5px}body.phoneMode .compassTitle{font-size:12px}body.phoneMode .compassModes{gap:4px}body.phoneMode .compassModes button{font-size:12px;padding:7px 9px}body.phoneMode .canvasbox{height:max(360px,54dvh);min-height:360px;flex:none}body.phoneMode .phoneViews{display:flex;gap:5px;align-items:center}body.phoneMode .phoneViews button{flex:1;font-size:12px;padding:7px 4px;min-height:40px}body.phoneMode .demoBar{padding:9px;gap:8px}body.phoneMode .demoBar #demoCaption{font-size:13px}body.phoneMode .demoControls{gap:4px}body.phoneMode .demoBar button{font-size:12px;padding:7px 8px}body.phoneMode .demoDescription{min-width:0;flex-basis:100%}body.phoneMode .demoEyebrow{display:none}body.phoneMode .speedLabel{font-size:11px}body.phoneMode .settingsPopup{width:245px}body.phoneMode .demoControls #demoCloseBtn{margin-left:auto}
+@media(max-width:480px){.modeChoices{grid-template-columns:1fr}.modeChoice{padding:18px;gap:8px}.modeChoice svg{height:48px}.modeCard p{margin-bottom:16px}}
 </style>
 </head>
 <body>
+<div id="modeOverlay" class="modeOverlay" role="dialog" aria-modal="true" aria-labelledby="modeTitle">
+  <div class="modeCard"><h2 id="modeTitle">어떤 기기로 작도할까요?</h2><p>사용할 화면을 선택해 주세요.<br>나중에도 상단의 ‘화면 선택’에서 바꿀 수 있어요.</p>
+    <div class="modeChoices">
+      <button id="wideModeBtn" class="modeChoice"><svg viewBox="0 0 90 70" aria-hidden="true"><rect x="13" y="6" width="64" height="44" rx="4"/><path d="M7 57h76l-5 7H12zM36 57h18"/></svg><strong>노트북 · 태블릿</strong><small>넓은 화면에서 조건과 작도를<br>한눈에 볼 수 있어요.</small></button>
+      <button id="phoneModeBtn" class="modeChoice"><svg viewBox="0 0 90 70" aria-hidden="true"><rect x="28" y="3" width="34" height="64" rx="6"/><path d="M38 9h14M40 61h10"/></svg><strong>세로형 스마트폰</strong><small>세로로 긴 스마트폰에 맞춰<br>버튼과 작도판을 크게 보여 줘요.</small></button>
+    </div>
+  </div>
+</div>
 <header>
   <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
     <div>
@@ -37,6 +60,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
       <div class="sub">기존 작도 도구를 그대로 사용하여 삼각형을 직접 작도할 수 있습니다.</div>
     </div>
     <div class="shareTop">
+      <button id="modeOpenBtn" class="iconBtn" aria-label="화면 모드 선택">화면 선택</button>
       <button id="shareOpenBtn" class="shareBtn iconBtn" title="학생에게 공유" aria-label="학생에게 공유"><span class="ico" aria-hidden="true">↗</span>공유</button>
       <button id="fullscreenBtn" class="fullBtn iconBtn" title="전체화면" aria-label="전체화면"><span class="ico" aria-hidden="true">⛶</span>전체화면</button>
     </div>
@@ -53,26 +77,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
   </div>
 
   <div class="panel">
-    <div class="row toolbar">
-      <div class="mission" id="mission"></div>
-      <div class="tools" role="toolbar" aria-label="작도 도구">
-        <button id="lineBtn" class="iconBtn active" title="자(직선)" aria-label="자(직선)"><span class="ico" aria-hidden="true">⟷</span>직선</button>
-        <button id="rayBtn" class="iconBtn" title="반직선" aria-label="반직선"><span class="ico" aria-hidden="true">⟶</span>반직선</button>
-        <button id="segmentBtn" class="iconBtn" title="선분" aria-label="선분"><span class="ico" aria-hidden="true">━</span>선분</button>
-        <button id="compassBtn" class="iconBtn" title="컴퍼스" aria-label="컴퍼스"><span class="ico" aria-hidden="true">◉</span>컴퍼스</button>
-        <button id="pointBtn" class="iconBtn" title="점" aria-label="점"><span class="ico" aria-hidden="true">•</span>점</button>
-        <button id="intersectionBtn" class="iconBtn" title="교점" aria-label="교점"><span class="ico" aria-hidden="true">✣</span>교점</button>
-        <span class="separator" aria-hidden="true"></span>
-        <button id="gridBtn" class="iconBtn" title="격자 켜기" aria-label="격자 켜기" aria-pressed="false"><span class="ico" aria-hidden="true">▦</span>격자</button>
-        <div class="tools colorTools" id="colorTools" aria-label="색상">
-          <button class="colorBtn active" data-color="#1565c0" title="파랑" aria-label="파랑" style="background:#1565c0">파랑</button>
-          <button class="colorBtn" data-color="#d34e32" title="빨강" aria-label="빨강" style="background:#d34e32">빨강</button>
-          <button class="colorBtn" data-color="#2e7d32" title="초록" aria-label="초록" style="background:#2e7d32">초록</button>
-          <button class="colorBtn" data-color="#111111" title="검정" aria-label="검정" style="background:#111">검정</button>
-          <button class="colorBtn" data-color="#8e44ad" title="보라" aria-label="보라" style="background:#8e44ad">보라</button>
-        </div>
-      </div>
-    </div>
+    <div class="row toolbar"><div class="mission" id="mission"></div><div class="toolGroup" role="group" aria-label="선 그리기"><span class="groupName">선 그리기</span><div class="groupButtons"><button id="lineBtn" class="iconBtn active" title="자(직선)" aria-label="자(직선)"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21L21 3M3 15v6h6M15 3h6v6"/></svg></span>직선</button><button id="rayBtn" class="iconBtn" title="반직선" aria-label="반직선"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L21 3M15 3h6v6"/><circle cx="4" cy="20" r="2" fill="currentColor"/></svg></span>반직선</button><button id="segmentBtn" class="iconBtn" title="선분" aria-label="선분"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5"/><circle cx="5" cy="19" r="2" fill="currentColor"/><circle cx="19" cy="5" r="2" fill="currentColor"/></svg></span>선분</button></div></div><div class="toolGroup" role="group" aria-label="작도하기"><span class="groupName">작도하기</span><div class="groupButtons"><button id="compassBtn" class="iconBtn" title="컴퍼스" aria-label="컴퍼스"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M12 1v2M10 9L4 23M14 9l6 14M7 15q5 4 10 0"/></svg></span>컴퍼스</button><button id="pointBtn" class="iconBtn" title="점" aria-label="점"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" fill="currentColor"/></svg></span>점</button><button id="intersectionBtn" class="iconBtn" title="교점" aria-label="교점"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M3 21L21 3"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></span>교점</button></div></div><div class="toolGroup" role="group" aria-label="고치기"><span class="groupName">고치기</span><div class="groupButtons"><button id="undoBtn" class="iconBtn" title="되돌리기" aria-label="되돌리기"><span class="ico" aria-hidden="true">↶</span>되돌리기</button><button id="resetBtn" class="iconBtn" title="처음부터" aria-label="처음부터"><span class="ico" aria-hidden="true">⟲</span>초기화</button></div></div></div>
     <div id="compassBar" class="compassBar">
       <div class="compassTitle">컴퍼스 조작</div>
       <div class="compassModes">
@@ -87,19 +92,42 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
       </div>
     </div>
 
-    <div class="bottom utility" role="toolbar" aria-label="작도 조작">
-      <button id="hintBtn" class="iconBtn" title="힌트" aria-label="힌트"><span class="ico" aria-hidden="true">?</span>힌트</button>
-      <button id="undoBtn" class="iconBtn" title="되돌리기" aria-label="되돌리기"><span class="ico" aria-hidden="true">↶</span>되돌리기</button>
-      <button id="resetBtn" class="iconBtn" title="처음부터" aria-label="처음부터"><span class="ico" aria-hidden="true">⟲</span>초기화</button>
-      <button id="checkBtn" class="iconBtn" title="정답 확인" aria-label="정답 확인"><span class="ico" aria-hidden="true">✓</span>확인</button>
-      <span class="separator" aria-hidden="true"></span>
-      <button id="zoomOutBtn" class="iconBtn" title="축소" aria-label="축소"><span class="ico" aria-hidden="true">−</span>축소</button>
-      <button id="zoomResetBtn" title="배율 초기화" aria-label="배율 초기화">100%</button>
-      <button id="zoomInBtn" class="iconBtn" title="확대" aria-label="확대"><span class="ico" aria-hidden="true">＋</span>확대</button>
+    <div class="bottom utility" role="toolbar" aria-label="연습과 도움">
+      <button id="demoBtn" class="demoLaunch" aria-pressed="false">▶ 작도 시범</button>
+      <button id="hintBtn">? 힌트</button>
+      <div class="settingsTools">
+<button id="gridBtn" class="iconBtn" title="격자 켜기" aria-label="격자 켜기" aria-pressed="false"><span class="ico" aria-hidden="true">▦</span>격자</button>
+      <details class="settingsMenu" id="settingsMenu">
+        <summary><span id="currentColor" aria-hidden="true"></span> 색상 · 확대 <span aria-hidden="true">⌄</span></summary>
+        <div class="settingsPopup">
+          <strong>선과 점의 색상</strong>
+<div class="tools colorTools" id="colorTools" aria-label="색상">
+          <button class="colorBtn active" data-color="#1565c0" title="파랑" aria-label="파랑" style="background:#1565c0">파랑</button>
+          <button class="colorBtn" data-color="#d34e32" title="빨강" aria-label="빨강" style="background:#d34e32">빨강</button>
+          <button class="colorBtn" data-color="#2e7d32" title="초록" aria-label="초록" style="background:#2e7d32">초록</button>
+          <button class="colorBtn" data-color="#111111" title="검정" aria-label="검정" style="background:#111">검정</button>
+          <button class="colorBtn" data-color="#8e44ad" title="보라" aria-label="보라" style="background:#8e44ad">보라</button>
+        </div>
+          <strong>화면 크기</strong>
+          <div class="zoomControls"><button id="zoomOutBtn" class="iconBtn" title="축소" aria-label="축소"><span class="ico" aria-hidden="true">−</span>축소</button><button id="zoomResetBtn" title="배율 초기화" aria-label="배율 초기화">100%</button><button id="zoomInBtn" class="iconBtn" title="확대" aria-label="확대"><span class="ico" aria-hidden="true">＋</span>확대</button></div>
+        </div>
+      </details></div>
     </div>
-
+    <div id="demoBar" class="demoBar" hidden>
+      <div class="demoDescription"><span class="demoEyebrow">따라 보며 익히기</span><span id="demoCaption" aria-live="polite"></span><progress id="demoProgress" max="8" value="1" aria-label="시범 진행 단계"></progress></div>
+      <div class="demoControls">
+        <button id="demoPrevBtn" aria-label="이전 단계">← 이전</button>
+        <button id="demoPlayBtn" aria-label="일시정지">⏸ 멈춤</button>
+        <button id="demoNextBtn" aria-label="다음 단계">다음 →</button>
+        <label class="speedLabel">속도 <select id="demoSpeed" aria-label="시범 재생 속도"><option value="5000">느리게</option><option value="3200" selected>보통</option></select></label>
+        <button id="demoCloseBtn">직접 해보기 ×</button>
+      </div>
+    </div>
     <div id="status" class="status">도구를 선택하고 작도해 보세요.</div>
 
+    <div class="phoneViews" role="group" aria-label="작도판 보기 전환">
+      <button id="viewGivenBtn">① 조건 보기</button><button id="viewWorkBtn">② 작도하기</button><button id="viewAllBtn">전체 보기</button>
+    </div>
     <div class="canvasbox" id="box"><canvas id="cv"></canvas></div>
 
     <div id="hint" class="hint" hidden></div>
@@ -132,9 +160,12 @@ const compassBar=document.getElementById('compassBar');
 
 let lesson=0, tool='line', compassMode='move', actions=[], pending=null, hintStep=0, W=900,H=560, selectedColor='#1565c0';
 let viewScale=1, viewX=0, viewY=0, gridVisible=false;
+let sceneScale=1,sceneX=0,sceneY=0,sceneReady=false;
+let screenMode="wide",phoneView="all";
 let drag=null;
 let snapTarget=null;
 let intersectionSelections=[];
+let demoStep=-1,demoTimer=null;
 
 // 컴퍼스 상태: 바늘점(center), 연필점(pencil)
 let compass={center:{x:420,y:300}, pencil:{x:520,y:300}, visible:false};
@@ -550,6 +581,202 @@ function drawGrid(){
   for(let y=0;y<=H;y+=step){ctx.strokeStyle=y%100===0?'#d0ded8':'#e8efeb';ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
   ctx.restore();
 }
+const demoCaptions=[
+  [
+    '직선 ℓ을 긋습니다.','컴퍼스로 주어진 선분 a의 길이를 잽니다.',
+    '직선 ℓ 위에 길이가 a인 BC를 표시합니다.','컴퍼스로 주어진 선분 c의 길이를 잽니다.',
+    'B를 중심으로 반지름 c인 원을 그립니다.','컴퍼스로 주어진 선분 b의 길이를 잽니다.',
+    'C를 중심으로 반지름 b인 원을 그리고, 두 원의 위쪽 교점을 A라 합니다.',
+    'AB와 AC를 그어 삼각형 ABC를 완성합니다.'
+  ],[
+    '직선 ℓ을 긋습니다.','컴퍼스로 주어진 선분 a의 길이를 잽니다.',
+    '직선 ℓ 위에 길이가 a인 BC를 표시합니다.','주어진 ∠B를 컴퍼스로 재어 같은 크기의 각을 준비합니다.',
+    'BC를 한 변으로 하여 B에 주어진 각을 옮깁니다.','B에서 각의 다른 변인 반직선 BP를 그립니다.',
+    'B를 중심으로 반지름 c인 원을 그려 BP와 만나는 점을 A라 합니다.',
+    'A와 C를 이어 삼각형 ABC를 완성합니다.'
+  ],[
+    '직선 ℓ을 긋습니다.','컴퍼스로 주어진 선분 a의 길이를 잽니다.',
+    '직선 ℓ 위에 길이가 a인 BC를 표시합니다.','주어진 ∠B를 확인하고 B에서 같은 크기의 각을 옮깁니다.',
+    'B에서 첫 번째 반직선 BP를 그립니다.','주어진 ∠C를 확인하고 C에서 같은 크기의 각을 옮깁니다.',
+    'C에서 두 번째 반직선 CQ를 그립니다.','BP와 CQ의 교점을 A라 하여 삼각형 ABC를 완성합니다.'
+  ],[
+    '직선 ℓ을 긋습니다.','컴퍼스로 주어진 선분 a의 길이를 잽니다.',
+    '직선 ℓ 위에 길이가 a인 BC를 표시합니다.','B를 중심으로 반지름 a인 원을 그립니다.',
+    'C를 중심으로 반지름 a인 원을 그립니다.','두 원의 위쪽 교점을 A라 합니다.',
+    'A와 B를 잇습니다.','A와 C를 이어 정삼각형 ABC를 완성합니다.'
+  ],[
+    '직선 ℓ을 긋습니다.','컴퍼스로 주어진 선분 a의 길이를 잽니다.',
+    '직선 ℓ 위에 길이가 a인 BC를 표시합니다.','주어진 ∠B를 컴퍼스로 재어 같은 크기의 각을 준비합니다.',
+    'BC를 한 변으로 하여 B에 주어진 각을 옮깁니다.','B에서 반직선 BP를 그립니다.',
+    'B를 중심으로 반지름 c인 원을 그려 BP 위의 점 A를 표시합니다.',
+    'A와 C를 이어 삼각형 ABC를 완성합니다.'
+  ]
+];
+function angleCopyCaptions(name){
+  return [
+    name+' ① 원래 각의 꼭짓점을 중심으로 호를 그려 두 변과 만나는 점 M, N을 표시합니다.',
+    name+' ② 컴퍼스 간격을 그대로 두고 새 꼭짓점에서 같은 반지름의 호를 그려 밑변 위의 M′을 표시합니다.',
+    name+' ③ 컴퍼스를 원래 각의 M과 N에 대어 두 점 사이의 거리 MN을 잽니다.',
+    name+' ④ M′을 중심으로 반지름 MN인 호를 그려 앞의 호와 만나는 점 N′을 표시합니다.',
+    name+' ⑤ 새 꼭짓점과 N′을 지나는 반직선을 그으면 같은 크기의 각이 됩니다.'
+  ];
+}
+const demoBaseCaptions=['직선 ℓ을 긋습니다.','컴퍼스로 주어진 선분 a의 길이를 잽니다.','직선 ℓ 위에 길이가 a인 BC를 표시합니다.'];
+for(const n of [1,4]) demoCaptions[n]=[
+  ...demoBaseCaptions,...angleCopyCaptions('∠B 옮기기'),
+  '컴퍼스로 주어진 선분 c의 길이를 잽니다.',
+  'B를 중심으로 반지름 c인 원을 그려 반직선 BP와 만나는 점을 A라 합니다.',
+  'A와 C를 이어 삼각형 ABC를 완성합니다.'
+];
+demoCaptions[2]=[
+  ...demoBaseCaptions,...angleCopyCaptions('∠B 옮기기'),...angleCopyCaptions('∠C 옮기기'),
+  '두 반직선 BP와 CQ의 교점을 A라 하여 삼각형 ABC를 완성합니다.'
+];
+function lastDemoStep(){return demoCaptions[lesson].length-1}
+function demoMark(p,label){dot(p,label,'#7042ae')}
+function demoStroke(a,b){seg(a,b,'#7042ae',3.4)}
+function demoCircle(c,r){
+  ctx.strokeStyle='#a070cb';ctx.lineWidth=2.2;ctx.setLineDash([6,4]);
+  ctx.beginPath();ctx.arc(c.x,c.y,r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+}
+function demoAngle(v,from,to){smallAngleArc(v,from,to,31,'#a070cb','#eee4fa')}
+function demoBaseLine(B,C){
+  seg(pt(B.x-55,B.y),pt(C.x+65,C.y),'#96a09f',1.5);
+  ctx.fillStyle='#777';ctx.font='italic 18px serif';ctx.fillText('ℓ',C.x+69,C.y+6);
+}
+function demoMeasure(a,b,label){
+  seg(a,b,'#e07937',5);
+  ctx.fillStyle='#a34b17';ctx.font='bold 16px sans-serif';
+  ctx.fillText(label,(a.x+b.x)/2-5,(a.y+b.y)/2-13);
+}
+function demoCompassMark(center,r,dir){
+  const tip=pt(center.x+r*Math.cos(dir),center.y+r*Math.sin(dir));
+  seg(center,tip,'#a070cb',1.5);demoMark(tip,'');
+}
+function demoCompassAt(a,b){
+  const pivot=pt((a.x+b.x)/2,(a.y+b.y)/2-34);
+  ctx.save();ctx.lineCap='round';
+  seg(a,pivot,'#647079',4);seg(b,pivot,'#647079',4);
+  ctx.fillStyle='#647079';ctx.beginPath();ctx.arc(pivot.x,pivot.y,5,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function demoCopyAngle(source,from,to,target,targetDirection,rayEnd,phase,showSource=true){
+  if(phase<0)return;
+  const radius=Math.min(48,dist(source,from)*.65,dist(source,to)*.65);
+  const sourceDirection=angle(source,from),delta=normAng(angle(source,to)-sourceDirection);
+  const sign=delta<0?-1:1;
+  const polar=(c,r,t)=>pt(c.x+r*Math.cos(t),c.y+r*Math.sin(t));
+  const M=polar(source,radius,sourceDirection),N=polar(source,radius,sourceDirection+delta);
+  const M2=polar(target,radius,targetDirection),N2=polar(target,radius,targetDirection+delta);
+  const strokeArc=(c,r,start,end,col)=>{
+    ctx.strokeStyle=col;ctx.lineWidth=2.2;ctx.beginPath();ctx.arc(c.x,c.y,r,start,end,end<start);ctx.stroke();
+  };
+  ctx.save();
+  if(showSource){
+    strokeArc(source,radius,sourceDirection-sign*.16,sourceDirection+delta+sign*.16,'#e07937');
+    demoMark(M,'M');demoMark(N,'N');
+    if(phase===0)demoCompassAt(source,M);
+    if(phase===2){seg(M,N,'#e07937',3);demoCompassAt(M,N)}
+  }
+  if(phase>=1){
+    strokeArc(target,radius,targetDirection-sign*.12,targetDirection+sign*Math.PI*.75,'#a070cb');
+    demoMark(M2,'M′');
+    if(phase===1 && showSource)demoCompassAt(target,M2);
+  }
+  if(phase>=3){
+    const chord=dist(M,N),bearing=angle(M2,N2);
+    strokeArc(M2,chord,bearing-.4,bearing+.4,'#e07937');
+    demoMark(N2,'N′');
+    if(phase===3 && showSource){seg(M2,N2,'#e07937',1.5);demoCompassAt(M2,N2)}
+  }
+  if(phase>=4)demoStroke(target,rayEnd);
+  ctx.restore();
+}
+function drawDemo(){
+  if(demoStep<0)return;
+  const k=demoStep,g=base(),B=pt(W*.62,H*.69),purple='#7042ae';
+  ctx.fillStyle='rgba(255,255,255,.97)';ctx.fillRect(W*.485,H*.125,W*.43,H*.73);
+  ctx.fillStyle=purple;ctx.font='bold 15px sans-serif';ctx.fillText('작도 시범 · '+(k+1)+'/'+demoCaptions[lesson].length,W*.51,H*.19);
+  let a,b,c,angleB;
+  if(lesson===0){a=dist(g.s1a,g.s1b);b=dist(g.s2a,g.s2b);c=dist(g.s3a,g.s3b)}
+  else if(lesson===1){a=dist(g.s1a,g.s1b);c=dist(g.s2a,g.s2b);angleB=angle(g.V,g.B)}
+  else if(lesson===2){a=dist(g.baseA,g.baseB)}
+  else if(lesson===3){a=dist(g.a1,g.a2);b=a;c=a}
+  else{a=dist(g.a1,g.a2);c=dist(g.c1,g.c2);angleB=angle(g.B,g.BA)}
+  const C=pt(B.x+a,B.y);
+  demoBaseLine(B,C);
+  if(k>=2){demoStroke(B,C);demoMark(B,'B');demoMark(C,'C')}
+  if(k===1){
+    const start=lesson===3?g.a1:lesson===2?g.baseA:lesson===4?g.a1:g.s1a;
+    const end=lesson===3?g.a2:lesson===2?g.baseB:lesson===4?g.a2:g.s1b;
+    demoMeasure(start,end,'a');
+  }
+  if(lesson===0 || lesson===3){
+    const rB=c,rC=b,along=(rB*rB-rC*rC+a*a)/(2*a);
+    const A=pt(B.x+along,B.y-Math.sqrt(Math.max(0,rB*rB-along*along)));
+    if(lesson===0){
+      if(k===3)demoMeasure(g.s3a,g.s3b,'c');
+      if(k===5)demoMeasure(g.s2a,g.s2b,'b');
+      if(k>=4)demoCircle(B,rB);
+      if(k>=6){demoCircle(C,rC);demoMark(A,'A')}
+      if(k>=7){demoStroke(A,B);demoStroke(A,C)}
+    }else{
+      if(k>=3)demoCircle(B,a);
+      if(k>=4)demoCircle(C,a);
+      if(k>=5)demoMark(A,'A');
+      if(k>=6)demoStroke(A,B);
+      if(k>=7)demoStroke(A,C);
+    }
+  }else if(lesson===1 || lesson===4){
+    const source=lesson===1?g.V:g.B;
+    const arm=lesson===1?g.B:g.BA;
+    const A=pt(B.x+c*Math.cos(angleB),B.y+c*Math.sin(angleB));
+    const far=pt(B.x+(c+50)*Math.cos(angleB),B.y+(c+50)*Math.sin(angleB));
+    demoCopyAngle(source,lesson===1?g.A:g.BC,arm,B,0,far,k-3,k<=7);
+    if(k===8)demoMeasure(lesson===1?g.s2a:g.c1,lesson===1?g.s2b:g.c2,'c');
+    if(k>=9){demoCircle(B,c);demoMark(A,'A')}
+    if(k>=10)demoStroke(A,C);
+  }else{
+    const left=Math.abs(normAng(angle(g.angleL,g.L2)-angle(g.angleL,g.L1)));
+    const right=Math.abs(normAng(angle(g.angleR,g.R2)-angle(g.angleR,g.R1)));
+    const ld=pt(B.x+Math.cos(left),B.y-Math.sin(left));
+    const rd=pt(C.x-Math.cos(right),C.y-Math.sin(right));
+    const A=lineIntersection(B,ld,C,rd);
+    if(!A)return;
+    const P=pt(B.x+(A.x-B.x)*1.32,B.y+(A.y-B.y)*1.32);
+    const Q=pt(C.x+(A.x-C.x)*1.32,C.y+(A.y-C.y)*1.32);
+    demoCopyAngle(g.angleL,g.L1,g.L2,B,0,P,k-3,k<=7);
+    demoCopyAngle(g.angleR,g.R1,g.R2,C,Math.PI,Q,k-8,k>=8 && k<=12);
+    if(k>=13){demoMark(A,'A');demoStroke(B,A);demoStroke(C,A)}
+  }
+}
+function updateDemo(){
+  const bar=document.getElementById('demoBar');bar.hidden=demoStep<0;
+  demoBtn.setAttribute('aria-pressed',String(demoStep>=0));
+  if(demoStep<0)return;
+  if(screenMode==='phone'){
+    const sourceSteps=lesson===0?[1,3,5]:lesson===3?[1]:lesson===2?[1,3,5,8,10]:[1,3,5,8];
+    phoneView=sourceSteps.includes(demoStep)?'given':'work';syncPhoneView();resize();
+  }
+  document.getElementById('demoCaption').textContent=(demoStep+1)+'/'+demoCaptions[lesson].length+'  '+demoCaptions[lesson][demoStep];
+  document.getElementById('demoPlayBtn').textContent=demoTimer?'⏸ 멈춤':(demoStep===lastDemoStep()?'↻ 다시 보기':'▶ 재생');
+  demoProgress.max=demoCaptions[lesson].length;demoProgress.value=demoStep+1;
+  document.getElementById('demoPlayBtn').setAttribute('aria-label',demoTimer?'일시정지':'재생');
+  document.getElementById('demoPrevBtn').disabled=demoStep===0;
+  document.getElementById('demoNextBtn').disabled=demoStep===lastDemoStep();
+  draw();
+}
+function pauseDemo(){if(demoTimer){clearInterval(demoTimer);demoTimer=null}}
+function playDemo(){
+  if(demoStep===lastDemoStep())demoStep=0;
+  pauseDemo();demoTimer=setInterval(()=>{
+    if(demoStep<lastDemoStep())demoStep++;
+    else pauseDemo();
+    updateDemo();
+  },Number(demoSpeed.value)||3200);updateDemo();
+}
+function closeDemo(){pauseDemo();demoStep=-1;updateDemo();draw()}
+
 function draw(){
  ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfcfb';ctx.fillRect(0,0,W,H);
  applyView();
@@ -575,8 +802,8 @@ function draw(){
    smallAngleArc(g.V,g.A,g.B,22,'#666');
    ctx.fillStyle='#555';ctx.font='16px sans-serif';
    ctx.fillText('a',g.s1a.x-22,g.s1a.y+5);
-   ctx.fillText('b',g.s2a.x-22,g.s2a.y+5);
-   ctx.font='italic 21px serif';ctx.fillText('C',g.V.x+24,g.V.y-8);
+   ctx.fillText('c',g.s2a.x-22,g.s2a.y+5);
+   ctx.font='italic 21px serif';ctx.fillText('B',g.V.x+24,g.V.y-8);
  }
  if(lesson===2){
    seg(g.baseA,g.baseB,'#222',3);
@@ -585,10 +812,10 @@ function draw(){
    smallAngleArc(g.angleL,g.L1,g.L2,20,'#666');
    smallAngleArc(g.angleR,g.R1,g.R2,20,'#666');
    ctx.fillStyle='#555';ctx.font='16px sans-serif';
-   ctx.fillText('c', (g.baseA.x+g.baseB.x)/2-4, g.baseA.y+26);
+   ctx.fillText('a', (g.baseA.x+g.baseB.x)/2-4, g.baseA.y+26);
    ctx.font='italic 20px serif';
-   ctx.fillText('A',g.angleL.x+18,g.angleL.y-8);
-   ctx.fillText('B',g.angleR.x-32,g.angleR.y-8);
+   ctx.fillText('B',g.angleL.x+18,g.angleL.y-8);
+   ctx.fillText('C',g.angleR.x-32,g.angleR.y-8);
  }
 
  if(lesson===3){
@@ -654,7 +881,8 @@ function draw(){
  if(pending && (tool==='line' || tool==='ray' || tool==='segment')){
    ctx.save();ctx.strokeStyle='#888';ctx.setLineDash([6,5]);ctx.beginPath();ctx.arc(pending.x,pending.y,8,0,Math.PI*2);ctx.stroke();ctx.restore();
  }
- if(tool==='compass')drawCompass();
+ if(tool==='compass' && demoStep<0)drawCompass();
+ if(demoStep>=0)drawDemo();
 
  // 점 도구 스냅 시에도 잠깐 스냅 위치를 강조한다.
  if(tool!=='compass' && snapTarget){
@@ -671,29 +899,36 @@ function draw(){
 
 function resize(){
  let r=box.getBoundingClientRect(),q=Math.min(devicePixelRatio||1,2);
- cv.width=r.width*q;cv.height=r.height*q;ctx.setTransform(q,0,0,q,0,0);W=r.width;H=r.height;
+ if(r.width<=0 || r.height<=0)return;
+ if(!sceneReady){W=1000;H=640;sceneReady=true}
+ const focused=screenMode==='phone' && phoneView!=='all';
+ sceneScale=Math.min(r.width/(focused?W*.48:W),r.height/H);
+ sceneX=focused?r.width/2-W*(phoneView==='given'?.245:.72)*sceneScale:(r.width-W*sceneScale)/2;
+ sceneY=(r.height-H*sceneScale)/2;
+ cv.width=r.width*q;cv.height=r.height*q;ctx.setTransform(q*sceneScale,0,0,q*sceneScale,q*sceneX,q*sceneY);
  if(!compass.visible){
    compass.center=pt(W*.48,H*.58);compass.pencil=pt(W*.62,H*.58)
  }
  draw()
 }
 window.addEventListener('resize',resize);
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe(box);
 
 function pos(e){
   let r=cv.getBoundingClientRect();
-  return screenToWorld(pt(e.clientX-r.left,e.clientY-r.top));
+  return screenToWorld(pt((e.clientX-r.left-sceneX)/sceneScale,(e.clientY-r.top-sceneY)/sceneScale));
 }
 function hit(p,q,rad=22){return dist(p,q)<=rad}
 function setStatus(s,k=''){statusEl.className='status'+(k?' '+k:'');statusEl.textContent=s}
 
 function setLesson(n){
- lesson=n;actions=[];pending=null;hintStep=0;hintEl.hidden=true;snapTarget=null;intersectionSelections=[];viewScale=1;viewX=0;viewY=0;if(typeof zoomResetBtn!=='undefined')zoomResetBtn.textContent='100%';
+ closeDemo();lesson=n;actions=[];pending=null;hintStep=0;hintEl.hidden=true;snapTarget=null;intersectionSelections=[];viewScale=1;viewX=0;viewY=0;if(typeof zoomResetBtn!=='undefined')zoomResetBtn.textContent='100%';
  mission.textContent=L[n].m;[t0,t1,t2,t3,t4].forEach((b,i)=>b.classList.toggle('active',i===n));
  compass.visible=false;drag=null;setStatus('도구를 선택하고 작도해 보세요.');draw()
 }
 
 function setTool(t){
- tool=t;pending=null;snapTarget=null;
+ if(demoStep>=0)closeDemo();tool=t;pending=null;snapTarget=null;
  lineBtn.classList.toggle('active',t==='line');
  rayBtn.classList.toggle('active',t==='ray');
  segmentBtn.classList.toggle('active',t==='segment');
@@ -722,6 +957,7 @@ function setCompassMode(m){
 }
 
 cv.addEventListener('pointerdown',e=>{
+ if(demoStep>=0)return;
  e.preventDefault();cv.setPointerCapture?.(e.pointerId);let p=pos(e);
  if(tool==='intersection'){
    const hit=nearestIntersectionObject(p,38);
@@ -911,9 +1147,6 @@ function finishDrag(){
 }
 cv.addEventListener('pointerup',finishDrag);cv.addEventListener('pointercancel',finishDrag);
 
-function check(){
-  setStatus('삼각형 작도 연습용입니다. 작도 과정을 확인해 보세요.','ok');
-}
 
 function setZoom(next){
   const old=viewScale;
@@ -934,6 +1167,12 @@ zoomResetBtn.onclick=()=>{
   viewScale=1;viewX=0;viewY=0;zoomResetBtn.textContent='100%';draw();
 };
 
+demoBtn.onclick=()=>{if(demoStep>=0)closeDemo();else{pending=null;drag=null;demoStep=0;playDemo()}};
+demoPrevBtn.onclick=()=>{pauseDemo();demoStep=Math.max(0,demoStep-1);updateDemo()};
+demoNextBtn.onclick=()=>{pauseDemo();demoStep=Math.min(lastDemoStep(),demoStep+1);updateDemo()};
+demoPlayBtn.onclick=()=>{if(demoTimer){pauseDemo();updateDemo()}else playDemo()};
+demoCloseBtn.onclick=()=>{closeDemo();setTool(tool)};
+demoSpeed.onchange=()=>{if(demoTimer)playDemo()};
 t0.onclick=()=>setLesson(0);t1.onclick=()=>setLesson(1);t2.onclick=()=>setLesson(2);t3.onclick=()=>setLesson(3);t4.onclick=()=>setLesson(4);
 lineBtn.onclick=()=>setTool('line');
 rayBtn.onclick=()=>setTool('ray');
@@ -953,6 +1192,7 @@ gridBtn.onclick=()=>{
 document.querySelectorAll('.colorBtn').forEach(btn=>{
   btn.onclick=()=>{
     selectedColor=btn.dataset.color;
+    currentColor.style.background=selectedColor;
     document.querySelectorAll('.colorBtn').forEach(b=>b.classList.toggle('active',b===btn));
     setStatus('색상을 변경했습니다.');
     draw();
@@ -960,7 +1200,7 @@ document.querySelectorAll('.colorBtn').forEach(btn=>{
 });
 cmMove.onclick=()=>setCompassMode('move');cmOpen.onclick=()=>setCompassMode('open');cmArc.onclick=()=>setCompassMode('arc');
 undoBtn.onclick=()=>{if(actions.length)actions.pop();else pending=null;draw()};
-resetBtn.onclick=()=>setLesson(lesson);checkBtn.onclick=check;
+resetBtn.onclick=()=>{if((actions.length||pending)&&!confirm('지금까지 그린 선과 점을 모두 지울까요?'))return;setLesson(lesson)};
 hintBtn.onclick=()=>{hintEl.hidden=false;hintEl.innerHTML='<b>힌트 '+(hintStep+1)+'</b><br>'+L[lesson].h[hintStep];hintStep=(hintStep+1)%L[lesson].h.length};
 
 
@@ -1039,7 +1279,31 @@ document.addEventListener('fullscreenchange',()=>{
   fullscreenBtn.textContent=document.fullscreenElement?'전체화면 종료':'전체화면';
 });
 
-setLesson(0);setTool('line');resize();
+function syncPhoneView(){
+  viewGivenBtn.classList.toggle('active',phoneView==='given');
+  viewWorkBtn.classList.toggle('active',phoneView==='work');
+  viewAllBtn.classList.toggle('active',phoneView==='all');
+  for(const [id,value] of [[viewGivenBtn,'given'],[viewWorkBtn,'work'],[viewAllBtn,'all']])id.setAttribute('aria-pressed',String(phoneView===value));
+}
+function chooseView(view){
+  if(screenMode==='phone' && view!=='all' && view!==phoneView && tool==='compass' && compass.visible){
+    const targetX=W*(view==='given'?.22:.65),dx=targetX-compass.center.x;
+    compass.center=pt(targetX,compass.center.y);compass.pencil=pt(compass.pencil.x+dx,compass.pencil.y);
+  }
+  phoneView=view;viewScale=1;viewX=0;viewY=0;zoomResetBtn.textContent='100%';syncPhoneView();resize();
+}
+function selectScreenMode(mode){
+  screenMode=mode;document.body.classList.toggle('phoneMode',mode==='phone');
+  modeOverlay.hidden=true;document.body.style.overflow='';
+  if(demoStep>=0)closeDemo();
+  chooseView(mode==='phone'?'given':'all');
+  setStatus(mode==='phone'?'① 조건을 확인한 뒤 ② 작도하기를 누르세요. 시범에서는 화면이 자동으로 이동해요.':'도구를 선택하고 작도해 보세요.');
+}
+wideModeBtn.onclick=()=>selectScreenMode('wide');phoneModeBtn.onclick=()=>selectScreenMode('phone');
+modeOpenBtn.onclick=()=>{pauseDemo();if(demoStep>=0)updateDemo();modeOverlay.hidden=false;document.body.style.overflow='hidden';wideModeBtn.focus()};
+viewGivenBtn.onclick=()=>chooseView('given');viewWorkBtn.onclick=()=>chooseView('work');viewAllBtn.onclick=()=>chooseView('all');
+setLesson(0);setTool('line');resize();syncPhoneView();document.body.style.overflow='hidden';
+
 </script>
 </body>
 </html>
