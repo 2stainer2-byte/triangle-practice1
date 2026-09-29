@@ -42,6 +42,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
 .modeOverlay{position:fixed;inset:0;z-index:100;background:#edf2f0;display:flex;align-items:center;justify-content:center;padding:22px;overflow:auto}.modeOverlay[hidden]{display:none}.modeCard{width:min(650px,100%);text-align:center}.modeCard h2{font-size:clamp(24px,4vw,32px);margin:0 0 12px}.modeCard p{color:#61716a;line-height:1.6;margin:0 0 25px}.modeChoices{display:grid;grid-template-columns:1fr 1fr;gap:16px}.modeChoice{display:flex;align-items:center;flex-direction:column;gap:14px;background:white;border:2px solid #d1dfd8;padding:28px 16px;border-radius:20px;font-size:18px;white-space:normal}.modeChoice:hover,.modeChoice:focus-visible{border-color:#176b60;background:#f5fcf8}.modeChoice svg{width:78px;height:66px;stroke:#176b60;fill:none;stroke-width:2.5}.modeChoice small{font-weight:400;font-size:13px;line-height:1.5;color:#64756c}.phoneViews{display:none}
 body.phoneMode header{padding:8px 10px}body.phoneMode header h1{font-size:16px;white-space:normal}body.phoneMode header>div{gap:6px!important;align-items:center!important}body.phoneMode .shareTop{gap:4px}body.phoneMode .shareTop button{font-size:11px;padding:5px 7px}body.phoneMode .wrap{height:auto;min-height:0;padding:6px;gap:6px}body.phoneMode .tabs{gap:4px}body.phoneMode .tabs button{font-size:12px;padding:7px 9px;min-height:38px}body.phoneMode .panel{padding:6px;gap:6px}body.phoneMode .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:5px}body.phoneMode .toolGroup{display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:5px}body.phoneMode .groupName{display:block;writing-mode:horizontal-tb;letter-spacing:0;font-size:10px;text-align:center}body.phoneMode .groupButtons{display:flex;justify-content:space-around;gap:2px}body.phoneMode .toolGroup .iconBtn{min-width:0;flex:1;font-size:12px;height:48px;padding:3px 4px}body.phoneMode .toolGroup:last-child{grid-column:1/-1;flex-direction:row;align-items:center;padding:3px 6px}body.phoneMode .toolGroup:last-child .groupButtons{flex:1;justify-content:flex-end}body.phoneMode .toolGroup:last-child .iconBtn{height:36px;min-height:36px;flex:0 1 auto;flex-direction:row;gap:6px;padding:4px 12px}body.phoneMode .utility{gap:5px;flex-wrap:wrap}body.phoneMode .demoLaunch{font-size:14px;padding:8px 12px}body.phoneMode .utility button{font-size:12px;min-height:40px}body.phoneMode .settingsTools{margin-left:auto;gap:4px}body.phoneMode .settingsMenu summary{font-size:12px;padding:7px;min-height:40px}body.phoneMode .settingsTools .iconBtn{font-size:12px;padding:5px 7px}body.phoneMode .status{font-size:12px;line-height:1.5;min-height:32px}body.phoneMode .compassBar.show{flex-wrap:wrap;gap:5px}body.phoneMode .compassTitle{font-size:12px}body.phoneMode .compassModes{gap:4px}body.phoneMode .compassModes button{font-size:12px;padding:7px 9px}body.phoneMode .canvasbox{height:max(360px,54dvh);min-height:360px;flex:none}body.phoneMode .phoneViews{display:flex;gap:5px;align-items:center}body.phoneMode .phoneViews button{flex:1;font-size:12px;padding:7px 4px;min-height:40px}body.phoneMode .demoBar{padding:9px;gap:8px}body.phoneMode .demoBar #demoCaption{font-size:13px}body.phoneMode .demoControls{gap:4px}body.phoneMode .demoBar button{font-size:12px;padding:7px 8px}body.phoneMode .demoDescription{min-width:0;flex-basis:100%}body.phoneMode .demoEyebrow{display:none}body.phoneMode .speedLabel{font-size:11px}body.phoneMode .settingsPopup{width:245px}body.phoneMode .demoControls #demoCloseBtn{margin-left:auto}
 @media(max-width:480px){.modeChoices{grid-template-columns:1fr}.modeChoice{padding:18px;gap:8px}.modeChoice svg{height:48px}.modeCard p{margin-bottom:16px}}
+
+/* 세로형 단말기의 조작부와 작도판 */
+html{scroll-behavior:smooth}body.phoneMode{overflow-x:hidden;overscroll-behavior-y:auto}body.phoneMode header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #d8e3df;padding:7px 9px}body.phoneMode header>div{flex-wrap:nowrap!important}body.phoneMode header h1{font-size:14px;line-height:1.35}body.phoneMode .shareTop{flex-wrap:nowrap;flex-shrink:0}body.phoneMode #shareOpenBtn{display:none}body.phoneMode .wrap{width:100%;max-width:100%;min-width:0;overflow:visible;padding:5px;gap:5px}body.phoneMode .panel{min-width:0;padding:5px;gap:5px}body.phoneMode .tabs{max-width:100%;overflow-x:auto;touch-action:pan-x pan-y;scrollbar-width:thin}body.phoneMode .toolGroup .iconBtn{height:44px;min-height:44px}body.phoneMode .toolbar{gap:4px}body.phoneMode .groupName{font-size:10px}body.phoneMode .utility{display:grid;grid-template-columns:1fr auto auto;gap:4px;min-height:40px}body.phoneMode .settingsTools{margin:0}body.phoneMode .utility>button{padding:6px 8px}body.phoneMode .settingsMenu summary{font-size:11px;padding:6px}body.phoneMode .settingsTools #gridBtn{min-width:0;padding:6px}.phoneScrollControls{display:none}body.phoneMode .phoneScrollControls{display:flex;gap:5px;align-items:center}body.phoneMode .phoneScrollControls button{flex:1;min-height:40px;font-size:12px;padding:7px 6px}body.phoneMode .phoneScrollControls button.active{background:#315f95;color:white}body.phoneMode .phoneViews button{min-height:40px}.canvasFrame{display:flex;flex:1;min-height:0}.canvasScrollRail{display:none}body.phoneMode .canvasFrame{height:clamp(330px,58dvh,570px);flex:none;gap:5px}body.phoneMode .canvasbox{height:100%;min-height:0;min-width:0;flex:1;border-radius:9px}body.phoneMode .canvasScrollRail{display:flex;flex-direction:column;align-items:center;justify-content:center;width:25px;flex-shrink:0;gap:8px;background:#e2eae6;border-radius:8px;color:#456554;font-size:12px;font-weight:700;touch-action:pan-y;user-select:none}body.phoneMode .canvasScrollRail span{writing-mode:vertical-rl;letter-spacing:3px}body.phoneMode.scrollCanvas .canvasbox,body.phoneMode.scrollCanvas #cv{touch-action:pan-y pinch-zoom}body.phoneMode.scrollCanvas .canvasbox{border:2px solid #315f95}body.phoneMode.toolsCollapsed .toolbar,body.phoneMode.toolsCollapsed .compassBar{display:none}body.phoneMode .demoControls{display:grid;grid-template-columns:1fr 1fr 1fr;width:100%;gap:5px}body.phoneMode .demoControls button{min-width:0;min-height:40px}body.phoneMode .demoControls .speedLabel{grid-column:1/2}body.phoneMode .demoControls #demoCloseBtn{grid-column:2/4;width:100%;margin:0}body.phoneMode .demoBar #demoCaption{font-size:13px;line-height:1.5}body.phoneMode .hint{font-size:12px}body.phoneMode .settingsPopup{max-width:calc(100vw - 28px)}
 </style>
 </head>
 <body>
@@ -128,7 +131,12 @@ body.phoneMode header{padding:8px 10px}body.phoneMode header h1{font-size:16px;w
     <div class="phoneViews" role="group" aria-label="작도판 보기 전환">
       <button id="viewGivenBtn">① 조건 보기</button><button id="viewWorkBtn">② 작도하기</button><button id="viewAllBtn">전체 보기</button>
     </div>
-    <div class="canvasbox" id="box"><canvas id="cv"></canvas></div>
+    <div class="phoneScrollControls" aria-label="화면 조작">
+      <button id="drawModeBtn" class="active" aria-pressed="true">✎ 그리기</button>
+      <button id="scrollModeBtn" aria-pressed="false">↕ 화면 스크롤</button>
+      <button id="foldToolsBtn" aria-expanded="true">도구 접기 ⌃</button>
+    </div>
+    <div class="canvasFrame"><div class="canvasbox" id="box"><canvas id="cv"></canvas></div><div class="canvasScrollRail" aria-label="여기를 쓸어 화면을 위아래로 이동하세요">↕<span>스크롤</span>↕</div></div>
 
     <div id="hint" class="hint" hidden></div>
   </div>
@@ -161,7 +169,7 @@ const compassBar=document.getElementById('compassBar');
 let lesson=0, tool='line', compassMode='move', actions=[], pending=null, hintStep=0, W=900,H=560, selectedColor='#1565c0';
 let viewScale=1, viewX=0, viewY=0, gridVisible=false;
 let sceneScale=1,sceneX=0,sceneY=0,sceneReady=false;
-let screenMode="wide",phoneView="all";
+let screenMode="wide",phoneView="all",canvasScrollMode=false,toolsCollapsed=false;
 let drag=null;
 let snapTarget=null;
 let intersectionSelections=[];
@@ -928,6 +936,7 @@ function setLesson(n){
 }
 
 function setTool(t){
+ if(canvasScrollMode)setCanvasScroll(false);
  if(demoStep>=0)closeDemo();tool=t;pending=null;snapTarget=null;
  lineBtn.classList.toggle('active',t==='line');
  rayBtn.classList.toggle('active',t==='ray');
@@ -957,6 +966,7 @@ function setCompassMode(m){
 }
 
 cv.addEventListener('pointerdown',e=>{
+ if(screenMode==='phone' && canvasScrollMode)return;
  if(demoStep>=0)return;
  e.preventDefault();cv.setPointerCapture?.(e.pointerId);let p=pos(e);
  if(tool==='intersection'){
@@ -1279,6 +1289,18 @@ document.addEventListener('fullscreenchange',()=>{
   fullscreenBtn.textContent=document.fullscreenElement?'전체화면 종료':'전체화면';
 });
 
+function setCanvasScroll(enabled){
+  canvasScrollMode=enabled;drag=null;pending=null;
+  document.body.classList.toggle('scrollCanvas',enabled);
+  drawModeBtn.classList.toggle('active',!enabled);scrollModeBtn.classList.toggle('active',enabled);
+  drawModeBtn.setAttribute('aria-pressed',String(!enabled));scrollModeBtn.setAttribute('aria-pressed',String(enabled));
+  setStatus(enabled?'작도판 위를 위아래로 쓸어 화면을 이동하세요. 그리려면 ‘그리기’를 누르세요.':'선택한 도구로 작도하세요. 오른쪽 회색 스크롤 띠에서도 화면을 이동할 수 있어요.');draw();
+}
+drawModeBtn.onclick=()=>setCanvasScroll(false);scrollModeBtn.onclick=()=>setCanvasScroll(true);
+foldToolsBtn.onclick=()=>{
+  toolsCollapsed=!toolsCollapsed;document.body.classList.toggle('toolsCollapsed',toolsCollapsed);
+  foldToolsBtn.textContent=toolsCollapsed?'도구 펼치기 ⌄':'도구 접기 ⌃';foldToolsBtn.setAttribute('aria-expanded',String(!toolsCollapsed));
+};
 function syncPhoneView(){
   viewGivenBtn.classList.toggle('active',phoneView==='given');
   viewWorkBtn.classList.toggle('active',phoneView==='work');
@@ -1294,6 +1316,7 @@ function chooseView(view){
 }
 function selectScreenMode(mode){
   screenMode=mode;document.body.classList.toggle('phoneMode',mode==='phone');
+  setCanvasScroll(false);
   modeOverlay.hidden=true;document.body.style.overflow='';
   if(demoStep>=0)closeDemo();
   chooseView(mode==='phone'?'given':'all');
