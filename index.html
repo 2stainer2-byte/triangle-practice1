@@ -922,13 +922,37 @@ function draw(){
 function resize(){
  let r=box.getBoundingClientRect(),q=Math.min(devicePixelRatio||1,2);
  if(r.width<=0 || r.height<=0)return;
- if(!sceneReady){W=screenMode==='phone'?600:1000;H=screenMode==='phone'?850:640;sceneReady=true}
+
+ if(!sceneReady){
+   if(screenMode==='phone'){
+     W=600;H=850;
+   }else{
+     // 태블릿/노트북은 실제 작도판 비율에 맞춰 논리 화면 폭을 잡아
+     // 좌우 레터박스가 생기지 않게 한다.
+     H=640;
+     W=H*(r.width/r.height);
+     W=Math.max(900,Math.min(1280,W));
+   }
+   sceneReady=true;
+ }
+
  sceneScale=Math.min(r.width/W,r.height/H);
  sceneX=(r.width-W*sceneScale)/2;
  sceneY=(r.height-H*sceneScale)/2;
- cv.width=r.width*q;cv.height=r.height*q;ctx.setTransform(q*sceneScale,0,0,q*sceneScale,q*sceneX,q*sceneY);
+
+ cv.width=Math.max(1,Math.round(r.width*q));
+ cv.height=Math.max(1,Math.round(r.height*q));
+
+ // 남는 픽셀이 있더라도 작도판과 같은 배경으로 채운다.
+ ctx.setTransform(q,0,0,q,0,0);
+ ctx.fillStyle='#fbfcfb';
+ ctx.fillRect(0,0,r.width,r.height);
+
+ ctx.setTransform(q*sceneScale,0,0,q*sceneScale,q*sceneX,q*sceneY);
+
  if(!compass.visible){
-   compass.center=pt(W*(screenMode==='phone'?.35:.48),H*.60);compass.pencil=pt(compass.center.x+(screenMode==='phone'?125:W*.14),compass.center.y)
+   compass.center=pt(W*(screenMode==='phone'?.35:.48),H*.60);
+   compass.pencil=pt(compass.center.x+(screenMode==='phone'?125:W*.14),compass.center.y)
  }
  draw()
 }
